@@ -5,7 +5,6 @@ site_author: MScam dambreville.vincent@gmail.com
 theme:
   name: material
   palette:
-    # Thème sombre/lumineux automatique
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: indigo
@@ -21,8 +20,8 @@ theme:
         icon: material/weather-night
         name: Passer au mode clair
   features:
-    - navigation.tabs # Menu horizontal en haut
-    - navigation.sections # Sections claires dans la barre latérale
+    - navigation.tabs
+    - navigation.sections
 
 nav:
   - Accueil: index.md
@@ -32,4 +31,6 @@ nav:
   - 🎲 Les Règles (Crunch):
     - Création de personnage: crunch/creation_perso.md
     - Système de jeu: crunch/systeme.md
+  - 🎭 Outils:
+    - Feuille de personnage: outils/feuille-perso.md
   - 📜 Licence: licence.md

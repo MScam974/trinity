@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinity — Feuille de Personnage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --crimson: #8B1A1A;
+            --crimson-light: #B83333;
+            --crimson-dark: #5C0F0F;
+            --amber: #D4A017;
+            --amber-light: #E8C547;
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --white: #FFFFFF;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+            --shadow-crimson: 0 4px 14px rgba(139,26,26,0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--slate-900);
+            color: var(--slate-200);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--slate-900) 0%, var(--crimson-dark) 100%);
+            border-bottom: 2px solid var(--crimson);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--amber);
+            text-shadow: 0 0 20px rgba(212,160,23,0.3);
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--crimson-light); }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--crimson);
+            color: var(--white);
+            box-shadow: var(--shadow-crimson);
+        }
+
+        .btn-primary:hover {
+            background: var(--crimson-light);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139,26,26,0.4);
+        }
+
+        .btn-secondary {
+            background: var(--slate-700);
+            color: var(--slate-200);
+            border: 1px solid var(--slate-600);
+        }
+
+        .btn-secondary:hover {
+            background: var(--slate-600);
+            border-color: var(--slate-500);
+        }
+
+        .btn-amber {
+            background: var(--amber);
+            color: var(--slate-900);
+        }
+
+        .btn-amber:hover {
+            background: var(--amber-light);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--slate-300);
+            border: 1px solid var(--slate-600);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--crimson-light);
+            color: var(--crimson-light);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: var(--slate-800);
+            border-radius: 12px;
+            border: 1px solid var(--slate-700);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(90deg, var(--crimson-dark) 0%, transparent 100%);
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--slate-700);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--amber);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title .icon {
+            width: 32px;
+            height: 32px;
+            background: var(--crimson);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .section-body {
+            padding: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0 1.5rem;
+            border-bottom: 1px solid var(--slate-700);
+            background: var(--slate-800);
+        }
+
+        .tab {
+            padding: 0.875rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--slate-400);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            top: 1px;
+        }
+
+        .tab:hover { color: var(--slate-200); }
+
+        .tab.active {
+            color: var(--amber);
+            border-bottom-color: var(--amber);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--slate-300);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label .hint {
+            font-weight: 400;
+            color: var(--slate-500);
+            font-size: 0.8rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--slate-900);
+            border: 1px solid var(--slate-600);
+            border-radius: 8px;
+            color: var(--slate-200);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--crimson-light);
+            box-shadow: 0 0 0 3px rgba(139,26,26,0.15);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .dice-selector {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .dice-option {
+            position: relative;
+        }
+
+        .dice-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .dice-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--slate-900);
+            border: 2px solid var(--slate-600);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 80px;
+        }
+
+        .dice-option label:hover {
+            border-color: var(--slate-500);
+        }
+
+        .dice-option input:checked + label {
+            border-color: var(--crimson);
+            background: rgba(139,26,26,0.1);
+            box-shadow: var(--shadow-crimson);
+        }
+
+        .dice-icon {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .dice-label {
+            font-size: 0.75rem;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .affinity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .affinity-card {
+            background: var(--slate-900);
+            border: 2px solid var(--slate-600);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .affinity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--slate-600);
+            transition: background 0.3s;
+        }
+
+        .affinity-card:hover {
+            border-color: var(--slate-500);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .affinity-card.selected {
+            border-color: var(--crimson);
+            background: rgba(139,26,26,0.08);
+        }
+
+        .affinity-card.selected::before {
+            background: var(--crimson);
+        }
+
+        .affinity-card .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--amber);
+            margin-bottom: 0.5rem;
+        }
+
+        .affinity-card .card-subtitle {
+            font-size: 0.875rem;
+            color: var(--crimson-light);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .affinity-card .card-desc {
+            font-size: 0.875rem;
+            color: var(--slate-400);
+            line-height: 1.6;
+        }
+
+        .affinity-card .check-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--slate-600);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            color: transparent;
+            transition: all 0.2s;
+        }
+
+        .affinity-card.selected .check-indicator {
+            background: var(--crimson);
+            border-color: var(--crimson);
+            color: var(--white);
+        }
+
+        .question-card {
+            background: var(--slate-900);
+            border: 1px solid var(--slate-700);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .question-card.answered {
+            border-color: var(--crimson);
+            background: rgba(139,26,26,0.05);
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--crimson);
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--slate-200);
+            margin-bottom: 1rem;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            background: var(--slate-800);
+            border: 1px solid var(--slate-700);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .answer-option:hover {
+            border-color: var(--slate-500);
+            background: var(--slate-700);
+        }
+
+        .answer-option.selected {
+            border-color: var(--crimson);
+            background: rgba(139,26,26,0.1);
+        }
+
+        .answer-option input {
+            margin-top: 0.2rem;
+            accent-color: var(--crimson);
+        }
+
+        .answer-text {
+            font-size: 0.9375rem;
+            color: var(--slate-300);
+        }
+
+        .answer-code {
+            font-size: 0.75rem;
+            color: var(--slate-500);
+            font-family: monospace;
+            margin-top: 0.25rem;
+        }
+
+        .score-bar {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            padding: 1.5rem;
+            background: var(--slate-900);
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-value {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--amber);
+        }
+
+        .score-label {
+            font-size: 0.875rem;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.25rem;
+        }
+
+        .score-result {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--crimson-light);
+        }
+
+        .matrix-container {
+            overflow-x: auto;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0.5rem;
+        }
+
+        .matrix-header {
+            text-align: center;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .matrix-row-header {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--amber);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: right;
+        }
+
+        .matrix-cell {
+            background: var(--slate-900);
+            border: 2px solid var(--slate-700);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 120px;
+        }
+
+        .matrix-cell:hover {
+            border-color: var(--slate-500);
+        }
+
+        .matrix-cell.selected {
+            border-color: var(--crimson);
+            background: rgba(139,26,26,0.1);
+            box-shadow: var(--shadow-crimson);
+        }
+
+        .matrix-cell .cell-name {
+            font-weight: 600;
+            color: var(--slate-200);
+            font-size: 0.9375rem;
+        }
+
+        .matrix-cell .cell-level {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--amber);
+            margin-top: 0.5rem;
+        }
+
+        .matrix-cell .cell-threshold {
+            font-size: 0.75rem;
+            color: var(--slate-500);
+            margin-top: 0.25rem;
+        }
+
+        .skill-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.875rem 1rem;
+            background: var(--slate-900);
+            border: 1px solid var(--slate-700);
+            border-radius: 8px;
+        }
+
+        .skill-name {
+            flex: 1;
+            font-weight: 500;
+            color: var(--slate-200);
+        }
+
+        .skill-vocation {
+            font-size: 0.75rem;
+            color: var(--slate-500);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-attribute {
+            font-size: 0.75rem;
+            color: var(--amber);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-level {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .level-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--slate-600);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .level-dot.filled {
+            background: var(--crimson);
+            border-color: var(--crimson);
+            box-shadow: 0 0 6px rgba(139,26,26,0.5);
+        }
+
+        .level-dot:hover {
+            border-color: var(--crimson-light);
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--slate-900);
+            border: 1px solid var(--slate-700);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .spec-item:hover {
+            border-color: var(--slate-500);
+        }
+
+        .spec-item.selected {
+            border-color: var(--amber);
+            background: rgba(212,160,23,0.1);
+        }
+
+        .spec-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--slate-600);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: transparent;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .spec-item.selected .spec-checkbox {
+            background: var(--amber);
+            border-color: var(--amber);
+            color: var(--slate-900);
+        }
+
+        .spec-name {
+            font-size: 0.875rem;
+            color: var(--slate-300);
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .app-header,
+            .tabs,
+            .btn,
+            .no-print {
+                display: none !important;
+            }
+
+            .section {
+                border: 1px solid #ccc;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .section-header {
+                background: #f5f5f5 !important;
+                color: black !important;
+            }
+
+            .section-title {
+                color: #333 !important;
+            }
+
+            .matrix-cell,
+            .skill-item,
+            .spec-item,
+            .question-card,
+            .affinity-card {
+                background: white !important;
+                border-color: #ccc !important;
+                color: black !important;
+            }
+
+            .form-input,
+            .form-textarea,
+            .form-select {
+                background: white !important;
+                border-color: #ccc !important;
+                color: black !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container { padding: 1rem; }
+            .header-content { flex-direction: column; align-items: flex-start; }
+            .logo { font-size: 1.5rem; }
+            .score-bar { flex-direction: column; gap: 1rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .affinity-grid { grid-template-columns: 1fr; }
+            .matrix-table { font-size: 0.875rem; }
+            .matrix-cell { min-width: 80px; padding: 0.75rem; }
+        }
+
+        .hidden { display: none !important; }
+
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            background: var(--slate-800);
+            border: 1px solid var(--slate-600);
+            border-radius: 10px;
+            color: var(--slate-200);
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+        }
+
+        .toast.success { border-color: #22c55e; }
+        .toast.error { border-color: var(--crimson); }
+        .toast.info { border-color: var(--amber); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: var(--slate-700);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--crimson) 0%, var(--amber) 100%);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--slate-700);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--slate-300);
+        }
+
+        .badge.crimson { background: var(--crimson); color: var(--white); }
+        .badge.amber { background: var(--amber); color: var(--slate-900); }
+
+        .info-box {
+            background: rgba(212,160,23,0.1);
+            border: 1px solid var(--amber);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+            color: var(--slate-300);
+        }
+
+        .info-box strong {
+            color: var(--amber);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--slate-600) 50%, transparent 100%);
+            margin: 1.5rem 0;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .summary-card {
+            background: var(--slate-900);
+            border: 1px solid var(--slate-700);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .summary-card .summary-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-card .summary-value {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--amber);
+        }
+
+        .summary-card .summary-label {
+            font-size: 0.875rem;
+            color: var(--slate-400);
+            margin-top: 0.25rem;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">TRINITY <span>&#9876;</span></div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="app.newCharacter()">&#128260; Nouveau</button>
+                <button class="btn btn-secondary" onclick="app.loadJSON()">&#128194; Charger JSON</button>
+                <button class="btn btn-secondary" onclick="app.saveJSON()">&#128190; Sauvegarder JSON</button>
+                <button class="btn btn-amber" onclick="app.printSheet()">&#128424; Imprimer / PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- IDENTITÉ -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="icon">&#128100;</div>
+                    Identité
+                </div>
+            </div>
+            <div class="section-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nom du personnage</label>
+                        <input type="text" class="form-input" id="char-name" placeholder="Nom du survivant...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Joueur</label>
+                        <input type="text" class="form-input" id="player-name" placeholder="Ton nom...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Concept <span class="hint">— En une phrase, qui es-tu ?</span></label>
+                        <input type="text" class="form-input" id="char-concept" placeholder="Ex: Ancien marine devenu guide des terres noyées...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABS NAVIGATION -->
+        <div class="tabs no-print">
+            <button class="tab active" data-tab="questionnaire" onclick="app.switchTab('questionnaire')">&#127917; Questionnaire</button>
+            <button class="tab" data-tab="matrix" onclick="app.switchTab('matrix')">&#9889; Matrice 3×3</button>
+            <button class="tab" data-tab="affinities" onclick="app.switchTab('affinities')">&#128293; Affinités</button>
+            <button class="tab" data-tab="sheet" onclick="app.switchTab('sheet')">&#128203; Fiche Complète</button>
+        </div>
+
+        <!-- QUESTIONNAIRE TAB -->
+        <div id="tab-questionnaire" class="tab-content active">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="icon">&#127917;</div>
+                        Questionnaire de Profil
+                    </div>
+                    <button class="btn btn-outline" onclick="app.skipQuestionnaire()">&#9197; Passer le questionnaire</button>
+                </div>
+                <div class="section-body">
+                    <div class="info-box">
+                        <strong>Comment ça marche :</strong> Réponds aux 9 questions en choisissant la réaction qui correspond le mieux à ton personnage. Les codes <code>[A-B-C]</code> comptent pour ton Affinité, ta Vocation et ton Attribut. Tu peux aussi passer cette étape et aller directement à la matrice.
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="progress-bar" id="quiz-progress" style="width: 0%"></div>
+                    </div>
+
+                    <div class="score-bar">
+                        <div class="score-item">
+                            <div class="score-value" id="score-a">0</div>
+                            <div class="score-label">Affinité (A)</div>
+                            <div class="score-result" id="result-a">—</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="score-b">0</div>
+                            <div class="score-label">Vocation (B)</div>
+                            <div class="score-result" id="result-b">—</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-value" id="score-c">0</div>
+                            <div class="score-label">Attribut (C)</div>
+                            <div class="score-result" id="result-c">—</div>
+                        </div>
+                    </div>
+
+                    <div id="questions-container"></div>
+
+                    <div class="divider"></div>
+
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" id="btn-apply-quiz" onclick="app.applyQuizResults()" disabled>
+                            &#10024; Appliquer les résultats à la fiche
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATRIX TAB -->
+        <div id="tab-matrix" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="icon">&#9889;</div>
+                        Matrice 3×3 — L'Inné & L'Acquis
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="info-box">
+                        <strong>Instructions :</strong> Attribue un dé <strong>Fort (d10)</strong>, <strong>Moyen (d8)</strong> et <strong>Faible (d6)</strong> à tes 3 Attributs, puis à tes 3 Vocations. Les cases croisées donnent le niveau de chaque compétence.
+                    </div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#127922; Attributs (L'Inné)</h3>
+                    <div class="form-row" style="margin-bottom: 2rem;">
+                        <div class="form-group">
+                            <label class="form-label">Habileté <span class="hint">— Corps, précision, mouvement</span></label>
+                            <div class="dice-selector" id="attr-habileté"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Instinct <span class="hint">— Survie, réflexes, lien au vivant</span></label>
+                            <div class="dice-selector" id="attr-instinct"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Intellect <span class="hint">— Analyse, technique, réflexion</span></label>
+                            <div class="dice-selector" id="attr-intellect"></div>
+                        </div>
+                    </div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#127922; Vocations (L'Acquis)</h3>
+                    <div class="form-row" style="margin-bottom: 2rem;">
+                        <div class="form-group">
+                            <label class="form-label">Exploration <span class="hint">— Maîtrise du milieu</span></label>
+                            <div class="dice-selector" id="voc-exploration"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Interaction <span class="hint">— Rapports sociaux</span></label>
+                            <div class="dice-selector" id="voc-interaction"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Action <span class="hint">— Intervention physique</span></label>
+                            <div class="dice-selector" id="voc-action"></div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#128202; Matrice des Compétences</h3>
+                    <div class="matrix-container">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="matrix-header">Habileté</th>
+                                    <th class="matrix-header">Instinct</th>
+                                    <th class="matrix-header">Intellect</th>
+                                </tr>
+                            </thead>
+                            <tbody id="matrix-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AFFINITIES TAB -->
+        <div id="tab-affinities" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="icon">&#128293;</div>
+                        Affinité — Ta philosophie de survie
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="info-box">
+                        <strong>Choisis une voie :</strong> Ton affinité définit ta relation au monde et débloque des capacités uniques. Clique sur une carte pour la sélectionner.
+                    </div>
+
+                    <div class="affinity-grid" id="affinity-grid"></div>
+
+                    <div class="divider"></div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#11088; Spécialisations</h3>
+                    <div class="spec-grid" id="spec-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FULL SHEET TAB -->
+        <div id="tab-sheet" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="icon">&#128203;</div>
+                        Fiche de Personnage Complète
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="summary-grid" style="margin-bottom: 1.5rem;">
+                        <div class="summary-card">
+                            <div class="summary-icon">&#127917;</div>
+                            <div class="summary-value" id="summary-name">—</div>
+                            <div class="summary-label">Personnage</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon">&#128293;</div>
+                            <div class="summary-value" id="summary-affinity">—</div>
+                            <div class="summary-label">Affinité</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon">&#9889;</div>
+                            <div class="summary-value" id="summary-vocation">—</div>
+                            <div class="summary-label">Vocation forte</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon">&#127922;</div>
+                            <div class="summary-value" id="summary-attribute">—</div>
+                            <div class="summary-label">Attribut fort</div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#127922; Attributs & Vocations</h3>
+                    <div class="form-row" style="margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label class="form-label">Habileté</label>
+                            <input type="text" class="form-input" id="sheet-attr-habileté" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Instinct</label>
+                            <input type="text" class="form-input" id="sheet-attr-instinct" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Intellect</label>
+                            <input type="text" class="form-input" id="sheet-attr-intellect" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label class="form-label">Exploration</label>
+                            <input type="text" class="form-input" id="sheet-voc-exploration" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Interaction</label>
+                            <input type="text" class="form-input" id="sheet-voc-interaction" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Action</label>
+                            <input type="text" class="form-input" id="sheet-voc-action" readonly>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#128202; Compétences</h3>
+                    <div class="skill-list" id="sheet-skills"></div>
+
+                    <div class="divider"></div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#128221; Notes & Histoire</h3>
+                    <div class="form-group">
+                        <label class="form-label">Relique de l'Ancien Monde <span class="hint">— Quel objet gardes-tu ?</span></label>
+                        <textarea class="form-textarea" id="sheet-relic" placeholder="Décris l'objet que tu transportes malgré tout..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Histoire <span class="hint">— Qui étais-tu avant ? Qui es-tu devenu ?</span></label>
+                        <textarea class="form-textarea" id="sheet-story" placeholder="Ton passé, tes motivations, tes peurs..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Liens avec le groupe <span class="hint">— Comment les autres te voient-ils ?</span></label>
+                        <textarea class="form-textarea" id="sheet-bonds" placeholder="Tes relations avec les autres survivants..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+<script>
+        const DATA = {
+            questions: [
+                {
+                    id: 1,
+                    text: "Une fumée toxique envahit votre campement.",
+                    answers: [
+                        { text: "Vous analysez les courants d'air pour trouver une poche d'air pur.", code: [1, 1, 3] },
+                        { text: "Vous consultez vos cartes topographiques pour évacuer par la zone la plus sûre.", code: [2, 1, 3] },
+                        { text: "Vous utilisez des capteurs atmosphériques pour calculer la trajectoire du nuage.", code: [3, 1, 3] }
+                    ]
+                },
+                {
+                    id: 2,
+                    text: "Vous trouvez une ancienne radio qui émet un signal étrange.",
+                    answers: [
+                        { text: "Vous captez les émotions de détresse dans la voix de l'émetteur.", code: [1, 2, 2] },
+                        { text: "Vous tentez de convaincre le groupe de répondre à l'appel par devoir.", code: [2, 2, 2] },
+                        { text: "Vous ressentez par intuition qu'il s'agit d'un piège.", code: [3, 2, 2] }
+                    ]
+                },
+                {
+                    id: 3,
+                    text: "Un étranger propose un échange : nourriture contre objet fétiche.",
+                    answers: [
+                        { text: "Vous refusez et escaladez une paroi pour chasser vos propres proies.", code: [1, 3, 1] },
+                        { text: "Vous lui montrez la maîtrise de votre arme pour qu'il renonce à sa demande.", code: [2, 3, 1] },
+                        { text: "Vous neutralisez sa main avec précision pour récupérer la ration sans donner l'objet.", code: [3, 3, 1] }
+                    ]
+                },
+                {
+                    id: 4,
+                    text: "Vous êtes coincé devant une faille infranchissable.",
+                    answers: [
+                        { text: "Vous testez la solidité de la roche au toucher pour trouver un passage.", code: [2, 1, 2] },
+                        { text: "Vous suivez le flair des animaux qui traversent la faille.", code: [1, 1, 2] },
+                        { text: "Vous anticipez le moment où la structure s'effondrera par réflexe.", code: [3, 1, 2] }
+                    ]
+                },
+                {
+                    id: 5,
+                    text: "Quelqu'un doute de votre capacité à diriger.",
+                    answers: [
+                        { text: "Vous imposez le respect par la fermeté de votre maintien.", code: [2, 2, 1] },
+                        { text: "Vous montrez physiquement comment accomplir la tâche, sans un mot.", code: [1, 2, 1] },
+                        { text: "Vous manipulez les outils sous ses yeux pour prouver votre efficacité.", code: [3, 2, 1] }
+                    ]
+                },
+                {
+                    id: 6,
+                    text: "La Peste Écarlate fusionne avec de la technologie.",
+                    answers: [
+                        { text: "Vous identifiez le point critique à détruire pour arrêter la contamination.", code: [2, 3, 3] },
+                        { text: "Vous cherchez le schéma biologique pour désactiver la corruption.", code: [1, 3, 3] },
+                        { text: "Vous piratez le signal de la peste pour en reprendre le contrôle.", code: [3, 3, 3] }
+                    ]
+                },
+                {
+                    id: 7,
+                    text: "Comment vous déplacez-vous dans les zones sauvages ?",
+                    answers: [
+                        { text: "En utilisant des outils de franchissement de haute précision.", code: [3, 1, 1] },
+                        { text: "En courant pieds nus pour ne laisser aucune trace.", code: [1, 1, 1] },
+                        { text: "En marchant de façon cadencée pour économiser vos forces.", code: [2, 1, 1] }
+                    ]
+                },
+                {
+                    id: 8,
+                    text: "Quelle est votre priorité pour améliorer votre équipement ?",
+                    answers: [
+                        { text: "Ajouter des modules de communication et de données.", code: [3, 2, 3] },
+                        { text: "Y intégrer des symboles pour inspirer les membres du groupe.", code: [2, 2, 3] },
+                        { text: "Le rendre capable d'interagir avec les écosystèmes locaux.", code: [1, 2, 3] }
+                    ]
+                },
+                {
+                    id: 9,
+                    text: "Au moment du repos, que faites-vous ?",
+                    answers: [
+                        { text: "Vous vérifiez l'intégrité de vos protections contre les intrusions.", code: [3, 3, 2] },
+                        { text: "Vous restez aux aguets, sentant les mouvements dans la nuit.", code: [1, 3, 2] },
+                        { text: "Vous aiguisez votre lame par pur réflexe de défense.", code: [2, 3, 2] }
+                    ]
+                }
+            ],
+
+            affinities: {
+                harmonie: {
+                    id: 'harmonie',
+                    name: 'Harmonie',
+                    subtitle: 'La Symbiose',
+                    desc: 'La conviction que l\'humanité doit fusionner avec l\'écosystème pour survivre. L\'Harmoniste ne combat pas le milieu, il devient le milieu par la mutation.',
+                    attributePaths: {
+                        habileté: 'Armure — Peau chitineuse et griffes',
+                        instinct: 'Phéromones — Contrôle des humeurs',
+                        intellect: 'Adaptation — Respiration aquatique/toxique'
+                    }
+                },
+                purete: {
+                    id: 'purete',
+                    name: 'Pureté',
+                    subtitle: 'L\'Héritage',
+                    desc: 'La conviction que l\'humanité doit préserver son essence originelle et ses valeurs spirituelles. Le Puriste rejette l\'augmentation mécanique et la mutation biologique.',
+                    attributePaths: {
+                        habileté: 'Excellence — Attribut porté à d12',
+                        instinct: 'Souveraineté — Immunisé aux poisons/phéromones',
+                        intellect: 'Souveraineté — Immunisé aux interférences'
+                    }
+                },
+                suprematie: {
+                    id: 'suprematie',
+                    name: 'Suprématie',
+                    subtitle: 'L\'Optimisation',
+                    desc: 'La conviction que la biologie est une limite et que la technologie est la seule voie de survie. Chaque Suprématiste est indissociable de son Drone-Monture.',
+                    attributePaths: {
+                        habileté: 'Prédateur — Drone terrestre rapide',
+                        instinct: 'Caméléon — Drone furtif, invisibilité',
+                        intellect: 'Aérien — Drone volant, vision panoramique'
+                    }
+                }
+            },
+
+            skills: [
+                { name: 'Athlétisme', vocation: 'Exploration', attribute: 'Habileté', verbs: 'Grimper, Sauter, Franchir' },
+                { name: 'Survie', vocation: 'Exploration', attribute: 'Instinct', verbs: 'Pister, Orienter, Chasser' },
+                { name: 'Observation', vocation: 'Exploration', attribute: 'Intellect', verbs: 'Fouiller, Surveiller, Analyser' },
+                { name: 'Présence', vocation: 'Interaction', attribute: 'Habileté', verbs: 'Imposer, Intimider, Maintenir' },
+                { name: 'Persuasion', vocation: 'Interaction', attribute: 'Instinct', verbs: 'Convaincre, Négocier, Apaiser' },
+                { name: 'Bluff', vocation: 'Interaction', attribute: 'Intellect', verbs: 'Tromper, Feindre, Manipuler' },
+                { name: 'Combat', vocation: 'Action', attribute: 'Habileté', verbs: 'CàC, Distance, Lourde' },
+                { name: 'Discrétion', vocation: 'Action', attribute: 'Instinct', verbs: 'Se cacher, Infiltrer, Silencer' },
+                { name: 'Artisanat', vocation: 'Action', attribute: 'Intellect', verbs: 'Réparer, Crocheter, Fabriquer' }
+            ],
+
+            specializations: {
+                harmonie: [
+                    'Agilité prédatrice', 'Régénération', 'Sens vibratoires',
+                    'Dominance alpha', 'Lien empathique', 'Mimétisme',
+                    'Mutation létale', 'Camouflage chromatique', 'Bio-synthèse'
+                ],
+                purete: [
+                    'Dignité du port', 'Héritage des anciens', 'Esprit analytique',
+                    'Autorité naturelle', 'Le Serment', 'Dignité feinte',
+                    'Maîtrise martiale', 'Anonymat volontaire', 'Relique'
+                ],
+                suprematie: [
+                    'Traction motorisée', 'Capteurs biométriques', 'Relais optique',
+                    'Intimidation mécanique', 'Logique factuelle', 'Projection holographique',
+                    'Appui synchronisé', 'Brouillage électronique', 'Interface système'
+                ]
+            },
+
+            diceValues: { d6: 6, d8: 8, d10: 10 }
+        };
+
+        const state = {
+            name: '',
+            player: '',
+            concept: '',
+            quizAnswers: {},
+            attributes: { habileté: null, instinct: null, intellect: null },
+            vocations: { exploration: null, interaction: null, action: null },
+            affinity: null,
+            specializations: [],
+            notes: { relic: '', story: '', bonds: '' }
+        };
+
+        const app = {
+            init() {
+                this.renderQuestions();
+                this.renderDiceSelectors();
+                this.renderMatrix();
+                this.renderAffinities();
+                this.renderSpecs();
+                this.loadFromStorage();
+                this.updateSheet();
+            },
+
+            switchTab(tabId) {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+                if (tabId === 'sheet') this.updateSheet();
+            },
+
+            renderQuestions() {
+                const container = document.getElementById('questions-container');
+                container.innerHTML = DATA.questions.map(q => `
+                    <div class="question-card" id="question-${q.id}">
+                        <div class="question-number">Question ${q.id}/9</div>
+                        <div class="question-text">${q.text}</div>
+                        <div class="answers">
+                            ${q.answers.map((a, i) => `
+                                <label class="answer-option" onclick="app.selectAnswer(${q.id}, ${i}, [${a.code.join(',')}])">
+                                    <input type="radio" name="q${q.id}" value="${i}">
+                                    <div>
+                                        <div class="answer-text">${a.text}</div>
+                                        <div class="answer-code">[${a.code.join('-')}]</div>
+                                    </div>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            selectAnswer(qId, aIdx, code) {
+                state.quizAnswers[qId] = { idx: aIdx, code };
+                document.querySelectorAll(`#question-${qId} .answer-option`).forEach((el, i) => {
+                    el.classList.toggle('selected', i === aIdx);
+                });
+                document.getElementById(`question-${qId}`).classList.add('answered');
+                this.updateQuizScores();
+            },
+
+            updateQuizScores() {
+                let a = 0, b = 0, c = 0;
+                Object.values(state.quizAnswers).forEach(ans => {
+                    a += ans.code[0];
+                    b += ans.code[1];
+                    c += ans.code[2];
+                });
+
+                document.getElementById('score-a').textContent = a;
+                document.getElementById('score-b').textContent = b;
+                document.getElementById('score-c').textContent = c;
+
+                const total = Object.keys(state.quizAnswers).length;
+                document.getElementById('quiz-progress').style.width = `${(total / 9) * 100}%`;
+
+                if (total === 9) {
+                    const aff = a <= 15 ? 'Harmonie' : a <= 21 ? 'Puriste' : 'Suprématie';
+                    const voc = b <= 15 ? 'Exploration' : b <= 21 ? 'Interaction' : 'Action';
+                    const attr = c <= 15 ? 'Habileté' : c <= 21 ? 'Instinct' : 'Intellect';
+
+                    document.getElementById('result-a').textContent = aff;
+                    document.getElementById('result-b').textContent = voc;
+                    document.getElementById('result-c').textContent = attr;
+                    document.getElementById('btn-apply-quiz').disabled = false;
+                }
+            },
+
+            skipQuestionnaire() {
+                this.switchTab('matrix');
+                this.showToast('Questionnaire passé. Configure manuellement ta fiche.', 'info');
+            },
+
+            applyQuizResults() {
+                const a = parseInt(document.getElementById('score-a').textContent);
+                const b = parseInt(document.getElementById('score-b').textContent);
+                const c = parseInt(document.getElementById('score-c').textContent);
+
+                const affMap = { 'Harmonie': 'harmonie', 'Puriste': 'purete', 'Suprématie': 'suprematie' };
+                const vocMap = { 'Exploration': 'exploration', 'Interaction': 'interaction', 'Action': 'action' };
+                const attrMap = { 'Habileté': 'habileté', 'Instinct': 'instinct', 'Intellect': 'intellect' };
+
+                const affName = a <= 15 ? 'Harmonie' : a <= 21 ? 'Puriste' : 'Suprématie';
+                const vocName = b <= 15 ? 'Exploration' : b <= 21 ? 'Interaction' : 'Action';
+                const attrName = c <= 15 ? 'Habileté' : c <= 21 ? 'Instinct' : 'Intellect';
+
+                this.selectAffinity(affMap[affName]);
+
+                const attrs = ['habileté', 'instinct', 'intellect'];
+                const attrScores = { habileté: 0, instinct: 0, intellect: 0 };
+                Object.values(state.quizAnswers).forEach(ans => {
+                    attrScores.habileté += (ans.code[2] === 1) ? 1 : 0;
+                    attrScores.instinct += (ans.code[2] === 2) ? 1 : 0;
+                    attrScores.intellect += (ans.code[2] === 3) ? 1 : 0;
+                });
+
+                const sortedAttrs = attrs.sort((x, y) => attrScores[y] - attrScores[x]);
+                state.attributes[sortedAttrs[0]] = 'd10';
+                state.attributes[sortedAttrs[1]] = 'd8';
+                state.attributes[sortedAttrs[2]] = 'd6';
+
+                const vocScores = { exploration: 0, interaction: 0, action: 0 };
+                Object.values(state.quizAnswers).forEach(ans => {
+                    vocScores.exploration += (ans.code[1] === 1) ? 1 : 0;
+                    vocScores.interaction += (ans.code[1] === 2) ? 1 : 0;
+                    vocScores.action += (ans.code[1] === 3) ? 1 : 0;
+                });
+                const sortedVocs = ['exploration', 'interaction', 'action'].sort((x, y) => vocScores[y] - vocScores[x]);
+                state.vocations[sortedVocs[0]] = 'd10';
+                state.vocations[sortedVocs[1]] = 'd8';
+                state.vocations[sortedVocs[2]] = 'd6';
+
+                this.updateDiceUI();
+                this.updateMatrix();
+                this.switchTab('matrix');
+                this.showToast(`Résultats appliqués : ${affName} / ${vocName} / ${attrName}`, 'success');
+            },
+
+            renderDiceSelectors() {
+                const dice = ['d6', 'd8', 'd10'];
+                const groups = [
+                    { id: 'attr-habileté', type: 'attribute', key: 'habileté' },
+                    { id: 'attr-instinct', type: 'attribute', key: 'instinct' },
+                    { id: 'attr-intellect', type: 'attribute', key: 'intellect' },
+                    { id: 'voc-exploration', type: 'vocation', key: 'exploration' },
+                    { id: 'voc-interaction', type: 'vocation', key: 'interaction' },
+                    { id: 'voc-action', type: 'vocation', key: 'action' }
+                ];
+
+                groups.forEach(g => {
+                    const container = document.getElementById(g.id);
+                    container.innerHTML = dice.map(d => `
+                        <div class="dice-option">
+                            <input type="radio" name="${g.id}" id="${g.id}-${d}" value="${d}"
+                                onchange="app.setDice('${g.type}', '${g.key}', '${d}')">
+                            <label for="${g.id}-${d}">
+                                <span class="dice-icon">${d.toUpperCase()}</span>
+                                <span class="dice-label">${d === 'd10' ? 'Fort' : d === 'd8' ? 'Moyen' : 'Faible'}</span>
+                            </label>
+                        </div>
+                    `).join('');
+                });
+            },
+
+            setDice(type, key, value) {
+                const target = type === 'attribute' ? state.attributes : state.vocations;
+                const used = Object.entries(target).filter(([k, v]) => k !== key && v === value);
+                if (used.length > 0) {
+                    target[used[0][0]] = target[key];
+                }
+                target[key] = value;
+                this.updateDiceUI();
+                this.updateMatrix();
+                this.saveToStorage();
+            },
+
+            updateDiceUI() {
+                const updateGroup = (prefix, data) => {
+                    Object.entries(data).forEach(([key, value]) => {
+                        if (value) {
+                            const radio = document.getElementById(`${prefix}-${key}-${value}`);
+                            if (radio) radio.checked = true;
+                        }
+                    });
+                };
+                updateGroup('attr', state.attributes);
+                updateGroup('voc', state.vocations);
+            },
+
+            renderMatrix() {
+                const tbody = document.getElementById('matrix-body');
+                const vocations = ['Exploration', 'Interaction', 'Action'];
+                const attributes = ['Habileté', 'Instinct', 'Intellect'];
+
+                tbody.innerHTML = vocations.map(voc => `
+                    <tr>
+                        <td class="matrix-row-header">${voc}</td>
+                        ${attributes.map(attr => {
+                            const skill = DATA.skills.find(s => s.vocation === voc && s.attribute === attr);
+                            const cellId = 'cell-' + skill.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-');
+                            return `
+                                <td class="matrix-cell" id="${cellId}"
+                                    onclick="app.editSkillLevel('${skill.name}')">
+                                    <div class="cell-name">${skill.name}</div>
+                                    <div class="cell-level" id="level-${skill.name}">0</div>
+                                    <div class="cell-threshold">Seuil: 9+</div>
+                                </td>
+                            `;
+                        }).join('')}
+                    </tr>
+                `).join('');
+            },
+
+            updateMatrix() {
+                DATA.skills.forEach(skill => {
+                    const attrKey = skill.attribute.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const vocKey = skill.vocation.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const attrDice = state.attributes[attrKey];
+                    const vocDice = state.vocations[vocKey];
+
+                    let level = 0;
+                    if (attrDice && vocDice) {
+                        const attrVal = DATA.diceValues[attrDice];
+                        const vocVal = DATA.diceValues[vocDice];
+                        const sum = attrVal + vocVal;
+                        if (sum >= 20) level = 3;
+                        else if (sum >= 16) level = 2;
+                        else if (sum >= 12) level = 1;
+                    }
+
+                    const cell = document.getElementById(`level-${skill.name}`);
+                    if (cell) {
+                        cell.textContent = level;
+                        const threshold = level === 0 ? '9+' : level === 1 ? '8+' : level === 2 ? '7+' : '6+';
+                        cell.nextElementSibling.textContent = `Seuil: ${threshold}`;
+                        cell.parentElement.classList.toggle('selected', level === 3);
+                    }
+                });
+            },
+
+            editSkillLevel(skillName) {
+                this.showToast('Les niveaux sont calculés automatiquement depuis les dés. Modifie les Attributs et Vocations.', 'info');
+            },
+
+            renderAffinities() {
+                const grid = document.getElementById('affinity-grid');
+                grid.innerHTML = Object.values(DATA.affinities).map(aff => `
+                    <div class="affinity-card" id="affinity-${aff.id}" onclick="app.selectAffinity('${aff.id}')">
+                        <div class="check-indicator">&#10003;</div>
+                        <div class="card-title">${aff.name}</div>
+                        <div class="card-subtitle">${aff.subtitle}</div>
+                        <div class="card-desc">${aff.desc}</div>
+                    </div>
+                `).join('');
+            },
+
+            selectAffinity(affId) {
+                state.affinity = affId;
+                document.querySelectorAll('.affinity-card').forEach(c => c.classList.remove('selected'));
+                document.getElementById(`affinity-${affId}`).classList.add('selected');
+                this.renderSpecs();
+                this.saveToStorage();
+            },
+
+            renderSpecs() {
+                const grid = document.getElementById('spec-grid');
+                if (!state.affinity) {
+                    grid.innerHTML = '<p style="color: var(--slate-500); text-align: center;">Sélectionne d\'abord une Affinité pour voir les spécialisations disponibles.</p>';
+                    return;
+                }
+
+                const specs = DATA.specializations[state.affinity] || [];
+                grid.innerHTML = specs.map(spec => `
+                    <div class="spec-item ${state.specializations.includes(spec) ? 'selected' : ''}"
+                         onclick="app.toggleSpec('${spec}')">
+                        <div class="spec-checkbox">&#10003;</div>
+                        <div class="spec-name">${spec}</div>
+                    </div>
+                `).join('');
+            },
+
+            toggleSpec(spec) {
+                if (state.specializations.includes(spec)) {
+                    state.specializations = state.specializations.filter(s => s !== spec);
+                } else {
+                    if (state.specializations.length < 3) {
+                        state.specializations.push(spec);
+                    } else {
+                        this.showToast('Maximum 3 spécialisations', 'error');
+                        return;
+                    }
+                }
+                this.renderSpecs();
+                this.saveToStorage();
+            },
+
+            updateSheet() {
+                state.name = document.getElementById('char-name').value;
+                state.player = document.getElementById('player-name').value;
+                state.concept = document.getElementById('char-concept').value;
+
+                document.getElementById('summary-name').textContent = state.name || '—';
+                document.getElementById('summary-affinity').textContent = state.affinity
+                    ? DATA.affinities[state.affinity].name : '—';
+
+                const vocStrong = Object.entries(state.vocations).sort((a, b) =>
+                    DATA.diceValues[b[1] || 'd6'] - DATA.diceValues[a[1] || 'd6'])[0];
+                document.getElementById('summary-vocation').textContent = vocStrong && vocStrong[1]
+                    ? this.capitalize(vocStrong[0]) : '—';
+
+                const attrStrong = Object.entries(state.attributes).sort((a, b) =>
+                    DATA.diceValues[b[1] || 'd6'] - DATA.diceValues[a[1] || 'd6'])[0];
+                document.getElementById('summary-attribute').textContent = attrStrong && attrStrong[1]
+                    ? this.capitalize(attrStrong[0]) : '—';
+
+                document.getElementById('sheet-attr-habileté').value = state.attributes.habileté || 'Non défini';
+                document.getElementById('sheet-attr-instinct').value = state.attributes.instinct || 'Non défini';
+                document.getElementById('sheet-attr-intellect').value = state.attributes.intellect || 'Non défini';
+                document.getElementById('sheet-voc-exploration').value = state.vocations.exploration || 'Non défini';
+                document.getElementById('sheet-voc-interaction').value = state.vocations.interaction || 'Non défini';
+                document.getElementById('sheet-voc-action').value = state.vocations.action || 'Non défini';
+
+                const skillsContainer = document.getElementById('sheet-skills');
+                skillsContainer.innerHTML = DATA.skills.map(skill => {
+                    const attrKey = skill.attribute.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const vocKey = skill.vocation.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const attrDice = state.attributes[attrKey];
+                    const vocDice = state.vocations[vocKey];
+                    let level = 0;
+                    if (attrDice && vocDice) {
+                        const sum = DATA.diceValues[attrDice] + DATA.diceValues[vocDice];
+                        if (sum >= 20) level = 3;
+                        else if (sum >= 16) level = 2;
+                        else if (sum >= 12) level = 1;
+                    }
+                    const threshold = level === 0 ? '9+' : level === 1 ? '8+' : level === 2 ? '7+' : '6+';
+                    return `
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                ${skill.name}
+                                <div style="font-size: 0.75rem; color: var(--slate-500);">${skill.verbs}</div>
+                            </div>
+                            <span class="badge">${skill.vocation}</span>
+                            <span class="badge amber">${skill.attribute}</span>
+                            <div class="skill-level">
+                                ${[0, 1, 2, 3].map(i => `
+                                    <div class="level-dot ${i < level ? 'filled' : ''}"></div>
+                                `).join('')}
+                            </div>
+                            <span class="badge crimson">${threshold}</span>
+                        </div>
+                    `;
+                }).join('');
+            },
+
+            saveToStorage() {
+                const data = {
+                    ...state,
+                    name: document.getElementById('char-name').value,
+                    player: document.getElementById('player-name').value,
+                    concept: document.getElementById('char-concept').value,
+                    notes: {
+                        relic: document.getElementById('sheet-relic')?.value || '',
+                        story: document.getElementById('sheet-story')?.value || '',
+                        bonds: document.getElementById('sheet-bonds')?.value || ''
+                    }
+                };
+                localStorage.setItem('trinity-character', JSON.stringify(data));
+            },
+
+            loadFromStorage() {
+                try {
+                    const saved = localStorage.getItem('trinity-character');
+                    if (saved) {
+                        const data = JSON.parse(saved);
+                        Object.assign(state, data);
+
+                        document.getElementById('char-name').value = data.name || '';
+                        document.getElementById('player-name').value = data.player || '';
+                        document.getElementById('char-concept').value = data.concept || '';
+                        if (data.notes) {
+                            document.getElementById('sheet-relic').value = data.notes.relic || '';
+                            document.getElementById('sheet-story').value = data.notes.story || '';
+                            document.getElementById('sheet-bonds').value = data.notes.bonds || '';
+                        }
+
+                        this.updateDiceUI();
+                        if (data.affinity) this.selectAffinity(data.affinity);
+                        this.updateMatrix();
+                    }
+                } catch (e) {
+                    console.error('Failed to load from storage', e);
+                }
+            },
+
+            saveJSON() {
+                this.saveToStorage();
+                const data = localStorage.getItem('trinity-character');
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `trinity-${state.name || 'personnage'}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                this.showToast('Fiche sauvegardée !', 'success');
+            },
+
+            loadJSON() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        try {
+                            const data = JSON.parse(ev.target.result);
+                            Object.assign(state, data);
+                            localStorage.setItem('trinity-character', JSON.stringify(data));
+                            this.loadFromStorage();
+                            this.updateSheet();
+                            this.showToast('Fiche chargée !', 'success');
+                        } catch (err) {
+                            this.showToast('Fichier invalide', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            },
+
+            printSheet() {
+                this.updateSheet();
+                this.saveToStorage();
+                window.print();
+            },
+
+            newCharacter() {
+                if (!confirm('Créer un nouveau personnage ? La fiche actuelle sera effacée.')) return;
+
+                Object.assign(state, {
+                    name: '', player: '', concept: '',
+                    quizAnswers: {},
+                    attributes: { habileté: null, instinct: null, intellect: null },
+                    vocations: { exploration: null, interaction: null, action: null },
+                    affinity: null,
+                    specializations: [],
+                    notes: { relic: '', story: '', bonds: '' }
+                });
+
+                document.getElementById('char-name').value = '';
+                document.getElementById('player-name').value = '';
+                document.getElementById('char-concept').value = '';
+                document.getElementById('sheet-relic').value = '';
+                document.getElementById('sheet-story').value = '';
+                document.getElementById('sheet-bonds').value = '';
+
+                document.querySelectorAll('.answer-option').forEach(el => el.classList.remove('selected'));
+                document.querySelectorAll('.question-card').forEach(el => el.classList.remove('answered'));
+                document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+                document.querySelectorAll('.affinity-card').forEach(el => el.classList.remove('selected'));
+
+                document.getElementById('score-a').textContent = '0';
+                document.getElementById('score-b').textContent = '0';
+                document.getElementById('score-c').textContent = '0';
+                document.getElementById('result-a').textContent = '—';
+                document.getElementById('result-b').textContent = '—';
+                document.getElementById('result-c').textContent = '—';
+                document.getElementById('quiz-progress').style.width = '0%';
+                document.getElementById('btn-apply-quiz').disabled = true;
+
+                this.renderSpecs();
+                this.updateMatrix();
+                this.updateSheet();
+                localStorage.removeItem('trinity-character');
+                this.showToast('Nouveau personnage créé', 'success');
+            },
+
+            capitalize(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            },
+
+            showToast(message, type = 'info') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.textContent = message;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease forwards';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+        };
+
+        document.addEventListener('input', (e) => {
+            if (e.target.matches('.form-input, .form-textarea')) {
+                app.saveToStorage();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => app.init());
+    </script>
+</body>
+</html>
