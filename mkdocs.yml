@@ -28,8 +28,8 @@ nav:
   - Accueil: index.md
   - 📖 L'Univers (Fluff):
     - Présentation du monde: fluff/monde.md
-    - Les Factions: fluff/factions.md
+    - Les Factions: fluff/faction.md
   - 🎲 Les Règles (Crunch):
     - Création de personnage: crunch/creation_perso.md
     - Système de jeu: crunch/systeme.md
-  - 📜 Licence: LICENSE.md
+  - 📜 Licence: licence.md
