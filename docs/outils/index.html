@@ -886,7 +886,6 @@
             margin-top: 0.25rem;
         }
     </style>
-<base target="_blank">
 </head>
 <body>
     <header class="app-header">
@@ -936,6 +935,7 @@
             <button class="tab" data-tab="matrix" onclick="app.switchTab('matrix')">&#9889; Matrice 3×3</button>
             <button class="tab" data-tab="affinities" onclick="app.switchTab('affinities')">&#128293; Affinités</button>
             <button class="tab" data-tab="sheet" onclick="app.switchTab('sheet')">&#128203; Fiche Complète</button>
+            <button class="tab" data-tab="portrait" onclick="app.switchTab('portrait')">&#127912; Portrait IA</button>
         </div>
 
         <!-- QUESTIONNAIRE TAB -->
@@ -1166,6 +1166,50 @@
                 </div>
             </div>
         </div>
+
+        <!-- PORTRAIT TAB -->
+        <div id="tab-portrait" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="icon">&#127912;</div>
+                        Portrait IA — Générateur de Prompt
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="info-box">
+                        <strong>Comment ça marche :</strong> Choisis un genre et 2 à 3 traits de caractère : ils feront apparaître des suggestions de traits physiques (repérables par <span class="badge amber" style="padding:0.15rem 0.5rem;">suggéré</span>). Sélectionne ensuite 2 à 4 traits physiques, puis génère un prompt prêt à copier dans Gemini, Copilot ou ChatGPT pour obtenir une image.
+                    </div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#9878;&#65039; Genre</h3>
+                    <div class="spec-grid" id="portrait-gender" style="margin-bottom: 2rem;"></div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#127917; Traits de caractère <span class="hint">— choisis-en 2 ou 3</span></h3>
+                    <div class="spec-grid" id="portrait-personality" style="margin-bottom: 2rem;"></div>
+
+                    <div class="divider"></div>
+
+                    <h3 style="font-family: Cinzel; color: var(--amber); margin-bottom: 1rem;">&#128100; Traits physiques <span class="hint">— choisis-en 2 à 4, les suggestions dépendent de ton caractère et de ton affinité</span></h3>
+                    <div id="portrait-physical"></div>
+
+                    <div class="divider"></div>
+
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <button class="btn btn-primary" onclick="app.generateImagePrompt()">
+                            &#10024; Générer le prompt image
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Prompt généré <span class="hint">— copie-le dans ton générateur d'image préféré</span></label>
+                        <textarea class="form-textarea" id="portrait-prompt-output" readonly style="min-height: 220px;" placeholder="Clique sur « Générer le prompt image » une fois ton genre, ton caractère et tes traits physiques choisis..."></textarea>
+                        <div style="margin-top: 0.75rem;">
+                            <button class="btn btn-secondary" onclick="app.copyPrompt()">&#128203; Copier le prompt</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="toast-container" id="toast-container"></div>
@@ -1322,7 +1366,72 @@
                 ]
             },
 
-            diceValues: { d6: 6, d8: 8, d10: 10 }
+            diceValues: { d6: 6, d8: 8, d10: 10 },
+
+            personalityTraits: [
+                { id: 'farouche', label: 'Farouche', desc: 'Méfiant, prêt à mordre au moindre danger', suggests: ['regard_percant', 'cicatrices_fines', 'machoire_serree'] },
+                { id: 'loyal', label: 'Loyal', desc: 'Fidèle à son groupe jusqu\'au bout', suggests: ['traits_doux', 'tenue_ajustee', 'insignes_rang'] },
+                { id: 'calculateur', label: 'Calculateur', desc: 'Pèse chaque décision, froid et méthodique', suggests: ['regard_percant', 'longiligne', 'implant_oculaire'] },
+                { id: 'protecteur', label: 'Protecteur', desc: 'Se place toujours devant les autres', suggests: ['massif', 'cicatrices_fines', 'manteau_lourd'] },
+                { id: 'solitaire', label: 'Solitaire', desc: 'Préfère l\'ombre au groupe', suggests: ['voute', 'crane_rase', 'tenue_rapiecee'] },
+                { id: 'charismatique', label: 'Charismatique', desc: 'Attire naturellement l\'attention et la confiance', suggests: ['sourire_en_coin', 'cheveux_tresses', 'insignes_rang'] },
+                { id: 'impulsif', label: 'Impulsif', desc: 'Agit avant de réfléchir', suggests: ['nerveux', 'cicatrices_fines', 'tenue_technique'] },
+                { id: 'stoique', label: 'Stoïque', desc: 'Rien ne semble jamais l\'atteindre', suggests: ['machoire_serree', 'peau_tannee', 'tenue_ajustee'] },
+                { id: 'curieux', label: 'Curieux', desc: 'Toujours à examiner ce qui l\'entoure', suggests: ['traits_doux', 'implant_oculaire', 'tatouages_rituels'] },
+                { id: 'mefiant', label: 'Méfiant', desc: 'N\'accorde sa confiance qu\'à peu de monde', suggests: ['regard_percant', 'crane_rase', 'membre_mecanique'] },
+                { id: 'genereux', label: 'Généreux', desc: 'Partage le peu qu\'il possède', suggests: ['traits_doux', 'cheveux_tresses', 'objet_relique'] },
+                { id: 'cynique', label: 'Cynique', desc: 'Ne croit plus vraiment en grand-chose', suggests: ['sourire_en_coin', 'peau_tannee', 'tenue_rapiecee'] },
+                { id: 'discipline', label: 'Discipliné', desc: 'Rituels stricts, tenue irréprochable', suggests: ['machoire_serree', 'tenue_ajustee', 'insignes_rang'] },
+                { id: 'reveur', label: 'Rêveur', desc: 'A gardé un fragment d\'espoir du Monde d\'Avant', suggests: ['traits_doux', 'cheveux_tresses', 'objet_relique'] },
+                { id: 'brutal', label: 'Brutal', desc: 'Résout les problèmes par la force', suggests: ['massif', 'cicatrices_fines', 'membre_mecanique'] },
+                { id: 'pragmatique', label: 'Pragmatique', desc: 'Ne s\'attache qu\'à ce qui est utile', suggests: ['longiligne', 'peau_tannee', 'tenue_technique'] }
+            ],
+
+            physicalTraits: {
+                carrure: [
+                    { id: 'athletique', label: 'Athlétique et nerveux' },
+                    { id: 'massif', label: 'Massif et imposant' },
+                    { id: 'frele', label: 'Frêle et agile' },
+                    { id: 'voute', label: 'Voûté, marqué par l\'effort' },
+                    { id: 'longiligne', label: 'Longiligne et gracile' },
+                    { id: 'nerveux', label: 'Sec et nerveux, toujours en mouvement' }
+                ],
+                visage: [
+                    { id: 'regard_percant', label: 'Regard perçant et froid' },
+                    { id: 'cicatrices_fines', label: 'Visage buriné, cicatrices fines' },
+                    { id: 'traits_doux', label: 'Traits doux, yeux vifs' },
+                    { id: 'machoire_serree', label: 'Mâchoire serrée, expression fermée' },
+                    { id: 'sourire_en_coin', label: 'Sourire en coin, regard malicieux' },
+                    { id: 'crane_rase', label: 'Crâne rasé, traits anguleux' },
+                    { id: 'cheveux_tresses', label: 'Cheveux longs tressés' },
+                    { id: 'peau_tannee', label: 'Peau tannée par le sel et le soleil' }
+                ],
+                marques: {
+                    harmonie: [
+                        { id: 'plaques_chitineuses', label: 'Plaques chitineuses sur les avant-bras' },
+                        { id: 'veines_luminescentes', label: 'Veines légèrement luminescentes sous la peau' },
+                        { id: 'iris_fendus', label: 'Iris fendus, légères écailles aux tempes' }
+                    ],
+                    suprematie: [
+                        { id: 'implant_oculaire', label: 'Implant oculaire cybernétique' },
+                        { id: 'port_greffe', label: 'Port-greffe dorsal pour le drone' },
+                        { id: 'membre_mecanique', label: 'Membre partiellement mécanique' }
+                    ],
+                    purete: [
+                        { id: 'tatouages_rituels', label: 'Tatouages rituels de l\'Ancien Monde' },
+                        { id: 'insignes_rang', label: 'Insignes cousus témoignant de son rang' },
+                        { id: 'objet_relique', label: 'Objet-relique porté bien en évidence' }
+                    ]
+                },
+                tenue: [
+                    { id: 'manteau_lourd', label: 'Manteau rapiécé et lourd' },
+                    { id: 'armure_fortune', label: 'Armure légère de fortune' },
+                    { id: 'tenue_technique', label: 'Vêtements techniques ajustés' },
+                    { id: 'tenue_impermeable', label: 'Tenue en toile imperméabilisée' },
+                    { id: 'tenue_ajustee', label: 'Tenue sobre et impeccablement ajustée' },
+                    { id: 'tenue_rapiecee', label: 'Vêtements rapiécés, équipement dépareillé' }
+                ]
+            }
         };
 
         const state = {
@@ -1334,7 +1443,8 @@
             vocations: { exploration: null, interaction: null, action: null },
             affinity: null,
             specializations: [],
-            notes: { relic: '', story: '', bonds: '' }
+            notes: { relic: '', story: '', bonds: '' },
+            portrait: { gender: null, personality: [], physical: [] }
         };
 
         const app = {
@@ -1344,6 +1454,9 @@
                 this.renderMatrix();
                 this.renderAffinities();
                 this.renderSpecs();
+                this.renderPortraitGender();
+                this.renderPortraitPersonality();
+                this.renderPortraitPhysical();
                 this.loadFromStorage();
                 this.updateSheet();
             },
@@ -1356,14 +1469,30 @@
                 if (tabId === 'sheet') this.updateSheet();
             },
 
+            shuffleArray(arr) {
+                const copy = arr.slice();
+                for (let i = copy.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [copy[i], copy[j]] = [copy[j], copy[i]];
+                }
+                return copy;
+            },
+
             renderQuestions() {
                 const container = document.getElementById('questions-container');
+                // On mélange l'ordre d'affichage des réponses à chaque question, pour éviter
+                // que la position (1ère/2ème/3ème réponse) ne révèle le code [A-B-C].
+                this.shuffledAnswers = this.shuffledAnswers || {};
+                DATA.questions.forEach(q => {
+                    this.shuffledAnswers[q.id] = this.shuffleArray(q.answers);
+                });
+
                 container.innerHTML = DATA.questions.map(q => `
                     <div class="question-card" id="question-${q.id}">
                         <div class="question-number">Question ${q.id}/9</div>
                         <div class="question-text">${q.text}</div>
                         <div class="answers">
-                            ${q.answers.map((a, i) => `
+                            ${this.shuffledAnswers[q.id].map((a, i) => `
                                 <label class="answer-option" onclick="app.selectAnswer(${q.id}, ${i}, [${a.code.join(',')}])">
                                     <input type="radio" name="q${q.id}" value="${i}">
                                     <div>
@@ -1586,6 +1715,7 @@
                 document.querySelectorAll('.affinity-card').forEach(c => c.classList.remove('selected'));
                 document.getElementById(`affinity-${affId}`).classList.add('selected');
                 this.renderSpecs();
+                this.renderPortraitPhysical();
                 this.saveToStorage();
             },
 
@@ -1619,6 +1749,225 @@
                 }
                 this.renderSpecs();
                 this.saveToStorage();
+            },
+
+            renderPortraitGender() {
+                const grid = document.getElementById('portrait-gender');
+                const genders = [
+                    { id: 'homme', label: 'Homme' },
+                    { id: 'femme', label: 'Femme' },
+                    { id: 'autre', label: 'Autre / Non-genré' }
+                ];
+                grid.innerHTML = genders.map(g => `
+                    <div class="spec-item ${state.portrait.gender === g.id ? 'selected' : ''}" id="gender-${g.id}"
+                         onclick="app.selectGender('${g.id}')">
+                        <div class="spec-checkbox">&#10003;</div>
+                        <div class="spec-name">${g.label}</div>
+                    </div>
+                `).join('');
+            },
+
+            selectGender(genderId) {
+                state.portrait.gender = genderId;
+                this.renderPortraitGender();
+                this.saveToStorage();
+            },
+
+            renderPortraitPersonality() {
+                const grid = document.getElementById('portrait-personality');
+                grid.innerHTML = DATA.personalityTraits.map(t => `
+                    <div class="spec-item ${state.portrait.personality.includes(t.id) ? 'selected' : ''}" id="pers-${t.id}"
+                         onclick="app.togglePersonality('${t.id}')">
+                        <div class="spec-checkbox">&#10003;</div>
+                        <div>
+                            <div class="spec-name">${t.label}</div>
+                            <div style="font-size: 0.75rem; color: var(--slate-500);">${t.desc}</div>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            togglePersonality(traitId) {
+                const list = state.portrait.personality;
+                if (list.includes(traitId)) {
+                    state.portrait.personality = list.filter(t => t !== traitId);
+                } else {
+                    if (list.length < 3) {
+                        list.push(traitId);
+                    } else {
+                        this.showToast('Choisis au maximum 3 traits de caractère', 'error');
+                        return;
+                    }
+                }
+                this.renderPortraitPersonality();
+                this.renderPortraitPhysical();
+                this.saveToStorage();
+            },
+
+            getSuggestedPhysicalIds() {
+                const suggested = new Set();
+                state.portrait.personality.forEach(pId => {
+                    const trait = DATA.personalityTraits.find(t => t.id === pId);
+                    if (trait) trait.suggests.forEach(s => suggested.add(s));
+                });
+                return suggested;
+            },
+
+            renderPortraitPhysical() {
+                const container = document.getElementById('portrait-physical');
+                const suggested = this.getSuggestedPhysicalIds();
+
+                const marquesList = state.affinity
+                    ? DATA.physicalTraits.marques[state.affinity]
+                    : [].concat(...Object.values(DATA.physicalTraits.marques));
+
+                const categories = [
+                    { title: 'Carrure', items: DATA.physicalTraits.carrure },
+                    { title: 'Visage & regard', items: DATA.physicalTraits.visage },
+                    { title: state.affinity ? `Marques particulières (${DATA.affinities[state.affinity].name})` : 'Marques particulières', items: marquesList },
+                    { title: 'Tenue', items: DATA.physicalTraits.tenue }
+                ];
+
+                container.innerHTML = categories.map(cat => `
+                    <h4 style="color: var(--slate-400); font-weight: 600; margin: 1rem 0 0.5rem;">${cat.title}</h4>
+                    <div class="spec-grid" style="margin-bottom: 1rem;">
+                        ${cat.items.map(item => `
+                            <div class="spec-item ${state.portrait.physical.includes(item.id) ? 'selected' : ''}" id="phys-${item.id}"
+                                 onclick="app.togglePhysical('${item.id}')">
+                                <div class="spec-checkbox">&#10003;</div>
+                                <div style="flex:1;">
+                                    <div class="spec-name">${item.label}</div>
+                                </div>
+                                ${suggested.has(item.id) ? '<span class="badge amber" style="font-size:0.65rem;">suggéré</span>' : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `).join('');
+            },
+
+            togglePhysical(traitId) {
+                const list = state.portrait.physical;
+                if (list.includes(traitId)) {
+                    state.portrait.physical = list.filter(t => t !== traitId);
+                } else {
+                    if (list.length < 4) {
+                        list.push(traitId);
+                    } else {
+                        this.showToast('Choisis au maximum 4 traits physiques', 'error');
+                        return;
+                    }
+                }
+                this.renderPortraitPhysical();
+                this.saveToStorage();
+            },
+
+            findPhysicalLabel(traitId) {
+                const all = [].concat(
+                    DATA.physicalTraits.carrure,
+                    DATA.physicalTraits.visage,
+                    DATA.physicalTraits.tenue,
+                    ...Object.values(DATA.physicalTraits.marques)
+                );
+                const found = all.find(t => t.id === traitId);
+                return found ? found.label : null;
+            },
+
+            diceLevelLabel(entries) {
+                // entries: [[key, dice], ...] -> renvoie une map key -> 'Fort'/'Moyen'/'Faible'
+                const sorted = entries.slice().sort((a, b) =>
+                    DATA.diceValues[b[1] || 'd6'] - DATA.diceValues[a[1] || 'd6']);
+                const labels = ['Fort', 'Moyen', 'Faible'];
+                const result = {};
+                sorted.forEach(([key], i) => { result[key] = labels[i]; });
+                return result;
+            },
+
+            generateImagePrompt() {
+                if (!state.portrait.gender) {
+                    this.showToast('Choisis d\'abord un genre', 'error');
+                    return;
+                }
+                if (state.portrait.personality.length === 0) {
+                    this.showToast('Choisis au moins un trait de caractère', 'error');
+                    return;
+                }
+                if (state.portrait.physical.length === 0) {
+                    this.showToast('Choisis au moins un trait physique', 'error');
+                    return;
+                }
+
+                const genderLabel = { homme: 'un homme', femme: 'une femme', autre: 'une personne non-genrée' }[state.portrait.gender];
+
+                const affinity = state.affinity ? DATA.affinities[state.affinity] : null;
+
+                const personalityLabels = state.portrait.personality
+                    .map(id => DATA.personalityTraits.find(t => t.id === id))
+                    .filter(Boolean)
+                    .map(t => `${t.label.toLowerCase()} (${t.desc.toLowerCase()})`);
+
+                const physicalLabels = state.portrait.physical
+                    .map(id => this.findPhysicalLabel(id))
+                    .filter(Boolean);
+
+                const attrLevels = this.diceLevelLabel(Object.entries(state.attributes));
+                const vocLevels = this.diceLevelLabel(Object.entries(state.vocations));
+
+                const attrText = ['habileté', 'instinct', 'intellect']
+                    .map(k => `${this.capitalize(k)} ${attrLevels[k] || '—'}`).join(', ');
+                const vocText = ['exploration', 'interaction', 'action']
+                    .map(k => `${this.capitalize(k)} ${vocLevels[k] || '—'}`).join(', ');
+
+                const goodSkills = [];
+                const okSkills = [];
+                DATA.skills.forEach(skill => {
+                    const attrKey = skill.attribute.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const vocKey = skill.vocation.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const attrDice = state.attributes[attrKey];
+                    const vocDice = state.vocations[vocKey];
+                    let level = 0;
+                    if (attrDice && vocDice) {
+                        const sum = DATA.diceValues[attrDice] + DATA.diceValues[vocDice];
+                        if (sum >= 20) level = 3;
+                        else if (sum >= 16) level = 2;
+                        else if (sum >= 12) level = 1;
+                    }
+                    if (level >= 2) goodSkills.push(skill.name);
+                    else if (level === 1) okSkills.push(skill.name);
+                });
+
+                const lines = [];
+                lines.push(`Portrait de personnage pour un jeu de rôle post-apocalyptique où la montée des eaux et une contamination organique appelée la "Peste Écarlate" ont ravagé le monde. L'humanité y est divisée en trois voies de survie : les Puristes (discipline et héritage humaniste), les Harmonistes (mutation et fusion avec l'écosystème) et les Suprématistes (fusion avec la technologie et la cybernétique).`);
+                lines.push('');
+                lines.push(`Personnage : ${genderLabel}, survivant de ce monde englouti.`);
+                if (affinity) {
+                    lines.push(`Affinité : ${affinity.name} — ${affinity.subtitle}.`);
+                }
+                lines.push(`Caractère : ${personalityLabels.join(' ; ')}.`);
+                lines.push(`Apparence physique : ${physicalLabels.join(', ')}.`);
+                lines.push(`Vocations (rôle et savoir-faire) : ${vocText}.`);
+                lines.push(`Attributs (potentiel physique/mental) : ${attrText}.`);
+                if (goodSkills.length) lines.push(`Compétences maîtrisées (s'illustrent visuellement dans la pose/l'équipement) : ${goodSkills.join(', ')}.`);
+                if (okSkills.length) lines.push(`Compétences correctes : ${okSkills.join(', ')}.`);
+                lines.push('');
+                lines.push('Style : illustration réaliste et sombre, ambiance post-apocalyptique humide, lumière tamisée, cadrage portrait buste ou pied.');
+
+                document.getElementById('portrait-prompt-output').value = lines.join('\n');
+                this.showToast('Prompt généré !', 'success');
+            },
+
+            copyPrompt() {
+                const output = document.getElementById('portrait-prompt-output');
+                if (!output.value) {
+                    this.showToast('Génère d\'abord le prompt', 'error');
+                    return;
+                }
+                navigator.clipboard.writeText(output.value).then(() => {
+                    this.showToast('Prompt copié dans le presse-papier !', 'success');
+                }).catch(() => {
+                    output.select();
+                    document.execCommand('copy');
+                    this.showToast('Prompt copié !', 'success');
+                });
             },
 
             updateSheet() {
@@ -1701,6 +2050,7 @@
                     if (saved) {
                         const data = JSON.parse(saved);
                         Object.assign(state, data);
+                        if (!state.portrait) state.portrait = { gender: null, personality: [], physical: [] };
 
                         document.getElementById('char-name').value = data.name || '';
                         document.getElementById('player-name').value = data.player || '';
@@ -1714,6 +2064,9 @@
                         this.updateDiceUI();
                         if (data.affinity) this.selectAffinity(data.affinity);
                         this.updateMatrix();
+                        this.renderPortraitGender();
+                        this.renderPortraitPersonality();
+                        this.renderPortraitPhysical();
                     }
                 } catch (e) {
                     console.error('Failed to load from storage', e);
@@ -1774,7 +2127,8 @@
                     vocations: { exploration: null, interaction: null, action: null },
                     affinity: null,
                     specializations: [],
-                    notes: { relic: '', story: '', bonds: '' }
+                    notes: { relic: '', story: '', bonds: '' },
+                    portrait: { gender: null, personality: [], physical: [] }
                 });
 
                 document.getElementById('char-name').value = '';
@@ -1801,6 +2155,10 @@
                 this.renderSpecs();
                 this.updateMatrix();
                 this.updateSheet();
+                this.renderPortraitGender();
+                this.renderPortraitPersonality();
+                this.renderPortraitPhysical();
+                document.getElementById('portrait-prompt-output').value = '';
                 localStorage.removeItem('trinity-character');
                 this.showToast('Nouveau personnage créé', 'success');
             },
