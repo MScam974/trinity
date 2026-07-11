@@ -30,3 +30,11 @@ body {
 .repartition-option { display: inline-block; margin-right: 1rem; }
 
 .erreur-chargement { background: #5a1a1a; color: #fff; padding: 1rem; }
+
+/* fiche.html */
+main label { display: block; margin-bottom: .75rem; }
+main input[type="text"], main textarea { width: 100%; background: #1a1c24; color: #eee; border: 1px solid #333; padding: .4rem; }
+.affinite-groupe { display: flex; gap: 1.5rem; }
+.affinite-option { display: flex; align-items: center; gap: .4rem; }
+.a-venir { color: #777; font-style: italic; }
+#bouton-terminer { margin-top: 1.5rem; padding: .6rem 1.2rem; }

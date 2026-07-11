@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trynyty — Fiche de personnage</title>
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+    <header>
+        <h1>Fiche de personnage</h1>
+        <button id="bouton-export">Exporter en JSON</button>
+    </header>
+
+    <nav id="onglets-fiche" class="onglets">
+        <button class="onglet actif" data-onglet="personnage">Personnage</button>
+        <button class="onglet" data-onglet="competences">Compétences</button>
+        <button class="onglet" data-onglet="stats">Stats</button>
+        <button class="onglet" data-onglet="equipement">Équipement</button>
+        <button class="onglet" data-onglet="specialisation">Spécialisation</button>
+        <button class="onglet" data-onglet="affinites">Affinités</button>
+        <button class="onglet" data-onglet="notes">Notes</button>
+    </nav>
+
+    <main id="contenus-fiche">
+        <section class="onglet-contenu actif" id="onglet-personnage">
+            <label>Nom du personnage
+                <input type="text" id="fiche-nom-perso">
+            </label>
+            <label>Nom du joueur
+                <input type="text" id="fiche-nom-joueur">
+            </label>
+            <label>Archétype
+                <textarea id="fiche-archetype" rows="3"></textarea>
+            </label>
+
+            <h2>Affinité de départ</h2>
+            <div id="fiche-affinite" class="affinite-groupe"></div>
+        </section>
+
+        <section class="onglet-contenu" id="onglet-competences">
+            <p class="a-venir">À venir : triangle affinité + carré des compétences.</p>
+        </section>
+
+        <section class="onglet-contenu" id="onglet-stats">
+            <p class="a-venir">À venir : santé, mental, stress, fatigue.</p>
+        </section>
+
+        <section class="onglet-contenu" id="onglet-equipement">
+            <p class="a-venir">À venir.</p>
+        </section>
+
+        <section class="onglet-contenu" id="onglet-specialisation">
+            <p class="a-venir">À venir : pouvoirs liés à la spécialisation.</p>
+        </section>
+
+        <section class="onglet-contenu" id="onglet-affinites">
+            <p class="a-venir">À venir : pouvoirs liés à l'affinité.</p>
+        </section>
+
+        <section class="onglet-contenu" id="onglet-notes">
+            <p class="a-venir">À venir : lieux, autres, mystères.</p>
+        </section>
+    </main>
+
+    <script type="module" src="js/fiche.js"></script>
+</body>
+</html>

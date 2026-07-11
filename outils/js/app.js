@@ -11,6 +11,7 @@ import { initOnglets } from './ui.js';
 import { initQuestionnaire } from './questionnaire.js';
 import { initSelecteursDes } from './creation.js';
 import { initRepartitionAxe } from './competences.js';
+import { sauvegarderPersonnage } from './stockage.js';
 
 async function demarrer() {
     const donnees = await chargerDonnees();
@@ -91,6 +92,15 @@ async function demarrer() {
 
     // Utile en console tant qu'il n'y a pas encore de fiche/export.
     window.personnage = personnage;
+
+    // Fin de la création : sauvegarde et ouvre la fiche dans un nouvel onglet.
+    const boutonTerminer = document.getElementById('bouton-terminer');
+    if (boutonTerminer) {
+        boutonTerminer.addEventListener('click', () => {
+            sauvegarderPersonnage(personnage);
+            window.open('fiche.html', '_blank');
+        });
+    }
 }
 
 demarrer().catch(erreur => {
