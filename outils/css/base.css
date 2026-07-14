@@ -40,11 +40,17 @@ main input[type="text"], main textarea { width: 100%; background: #1a1c24; color
 #bouton-terminer { margin-top: 1.5rem; padding: .6rem 1.2rem; }
 
 /* Prompt IA */
-.trait-item { display: flex; justify-content: space-between; align-items: center; padding: .3rem 0; border-bottom: 1px solid #262a35; }
+.trait-item { padding: .4rem 0; border-bottom: 1px solid #262a35; }
+.trait-entete { display: flex; justify-content: space-between; align-items: center; }
 .trait-jauge label { margin-left: .8rem; font-size: .85rem; cursor: pointer; }
+.trait-mots { font-size: .8rem; color: #777; margin-top: .15rem; }
+.trait-mots .mot-actif { color: #eee; font-weight: bold; }
+.trait-mots .mot-separateur { margin: 0 .4rem; color: #444; }
 #prompt-ia-texte { width: 100%; margin-top: .8rem; background: #1a1c24; color: #eee; border: 1px solid #333; padding: .5rem; font-family: inherit; }
 .prompt-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
 .prompt-actions button, .prompt-actions a { padding: .4rem .8rem; background: #23262f; color: #eee; text-decoration: none; border: 1px solid #333; border-radius: 3px; }
+.panneau-principal { padding: .3rem .7rem .8rem; }
+.panneau-principal summary { padding: .5rem 0; font-weight: bold; font-size: 1.1rem; }
 
 /* Panneaux repliables (portrait) */
 .panneau { border: 1px solid #333; margin-bottom: .5rem; border-radius: 3px; }
