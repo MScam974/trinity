@@ -23,6 +23,18 @@ function rangDe(taille, config) {
 }
 
 /**
+ * Compétences "notables" (fort ou faible) au sein d'un axe donné
+ * (une vocation ou un attribut), pour enrichir la ligne correspondante.
+ */
+function competencesNotables(donnees, personnage, cle, valeurAxe) {
+    return donnees.competences
+        .filter(c => c[cle] === valeurAxe)
+        .map(c => ({ nom: c.nom, niveau: (personnage.competences[c.id] || { niveau: 0 }).niveau }))
+        .filter(c => c.niveau >= 2 || c.niveau === 0)
+        .map(c => `${c.nom} : ${c.niveau >= 2 ? 'fort' : 'faible'}`);
+}
+
+/**
  * Assemble le texte du prompt à partir des réglages faible/moyen/fort
  * actuellement choisis (personnage.traitsPsychologiques) et des données
  * de référence (contexte du monde, affinité, vocations, attributs).
@@ -30,61 +42,76 @@ function rangDe(taille, config) {
 export function genererPrompt(personnage, donnees) {
     const { monde, affinites, vocations, attributs, competences, config } = donnees;
 
-    const affinite = affinites.find(a => a.id === personnage.affinite);
-    const ligneAffinite = affinite
-        ? `Affinité : ${affinite.nom}${affinite.descriptionCourte ? ` (${affinite.descriptionCourte})` : ''}`
-        : 'Affinité : non définie';
-
-    const ligneVocations = 'Vocations : ' + vocations
-        .map(v => `${v.nom} ${rangDe(personnage.vocations[v.id], config)}`)
-        .join(', ');
-
-    const ligneAttributs = 'Attributs : ' + attributs
-        .map(a => `${a.nom} ${rangDe(personnage.attributs[a.id], config)}`)
-        .join(', ');
-
-    const traits = [];
-    competences.forEach(competence => {
-        const jauge = personnage.traitsPsychologiques[competence.id];
-        if (jauge === 'fort' && competence.traitsQualite && competence.traitsQualite.length) {
-            traits.push(`${competence.traitsQualite.join(' / ')} (fort)`);
-        } else if (jauge === 'faible' && competence.traitsDefaut && competence.traitsDefaut.length) {
-            traits.push(`${competence.traitsDefaut.join(' / ')} (faible)`);
-        }
-        // "moyen" : rien n'est ajouté, comme convenu.
-    });
-    const ligneTraits = traits.length
-        ? `Traits de caractère : ${traits.join(', ')}.`
-        : "Traits de caractère : (aucun trait marqué pour l'instant).";
-
     const lignes = [
         monde.contexte,
         '',
-        "Génère une image de ce personnage de fiction. Déduis d'abord sa psychologie, ses intentions et son apparence physique probable à partir de sa description ci-dessous (compétences, capacités). Si des indices physiques explicites sont fournis en fin de texte, respecte-les en priorité sur ce qui serait déduit.",
-        ligneAffinite,
-        ligneVocations,
-        ligneAttributs,
-        ligneTraits
+        "Génère une image de ce personnage de fiction. Déduis d'abord sa psychologie, ses intentions et son apparence physique probable à partir de sa description ci-dessous (compétences, capacités). Si des indices physiques explicites sont fournis en fin de texte, respecte-les en priorité sur ce qui serait déduit."
     ];
 
+    // Affinité : optionnelle (peut pousser l'IA vers des résultats trop
+    // extrêmes/mutés) — seulement si le joueur l'a explicitement activée.
+    if (personnage.inclureAffiniteDansPrompt) {
+        const affinite = affinites.find(a => a.id === personnage.affinite);
+        lignes.push(affinite
+            ? `Affinité : ${affinite.nom}${affinite.descriptionCourte ? ` (${affinite.descriptionCourte})` : ''}`
+            : 'Affinité : non définie');
+    }
+
+    lignes.push('Vocations : ' + vocations.map(v => {
+        const notables = competencesNotables(donnees, personnage, 'vocation', v.id);
+        return `${v.nom} ${rangDe(personnage.vocations[v.id], config)}${notables.length ? ` (${notables.join(', ')})` : ''}`;
+    }).join(', '));
+
+    lignes.push('Attributs : ' + attributs.map(a => {
+        const notables = competencesNotables(donnees, personnage, 'attribut', a.id);
+        return `${a.nom} ${rangDe(personnage.attributs[a.id], config)}${notables.length ? ` (${notables.join(', ')})` : ''}`;
+    }).join(', '));
+
+    // Traits de caractère : une seule section, qui fusionne les mots
+    // issus des compétences et ceux choisis dans le panneau Portrait.
+    // Deux catégories claires plutôt qu'un "(fort)/(faible)" par mot,
+    // pour éviter toute ambiguïté (ex: "Pacifique (faible)" pourrait se
+    // lire comme "faiblement pacifique" au lieu de "défaut lié à un
+    // Combat faible").
+    const traitsMarques = [];
+    const traitsEnRetrait = [];
+
+    competences.forEach(competence => {
+        const jauge = personnage.traitsPsychologiques[competence.id];
+        if (jauge === 'fort' && competence.traitsQualite && competence.traitsQualite.length) {
+            traitsMarques.push(...competence.traitsQualite);
+        } else if (jauge === 'faible' && competence.traitsDefaut && competence.traitsDefaut.length) {
+            traitsEnRetrait.push(...competence.traitsDefaut);
+        }
+        // "moyen" : rien n'est ajouté, comme convenu.
+    });
+
     const portrait = personnage.portrait || {};
-    const genre = donnees.portraits.genres.find(g => g.id === portrait.genre);
     const traitsCaractereChoisis = (portrait.traitsCaractere || [])
         .map(id => donnees.portraits.traitsCaractere.find(t => t.id === id))
         .filter(Boolean);
+    traitsCaractereChoisis.forEach(t => traitsMarques.push(`${t.nom} (${t.description})`));
+
+    if (traitsMarques.length) {
+        lignes.push(`Traits marqués : ${traitsMarques.join(', ')}.`);
+    }
+    if (traitsEnRetrait.length) {
+        lignes.push(`Traits peu présents : ${traitsEnRetrait.join(', ')}.`);
+    }
+    if (!traitsMarques.length && !traitsEnRetrait.length) {
+        lignes.push("Traits de caractère : (aucun trait marqué pour l'instant).");
+    }
+
+    const genre = donnees.portraits.genres.find(g => g.id === portrait.genre);
     const traitsPhysiquesChoisis = (portrait.traitsPhysiques || [])
         .map(id => trouverTraitPhysique(id, donnees.portraits))
         .filter(Boolean);
 
     const indices = [];
     if (genre) indices.push(`Genre : ${genre.nom}`);
-    if (traitsCaractereChoisis.length) {
-        indices.push(`Traits de caractère complémentaires : ${traitsCaractereChoisis.map(t => `${t.nom} (${t.description})`).join(', ')}`);
-    }
     if (traitsPhysiquesChoisis.length) {
         indices.push(`Indices physiques : ${traitsPhysiquesChoisis.map(t => t.nom).join(', ')}`);
     }
-
     if (indices.length) {
         lignes.push('', ...indices);
     }
@@ -113,11 +140,17 @@ function trouverTraitPhysique(id, portraits) {
  * @param {object} options.personnage
  * @param {object} options.donnees - résultat complet de chargerDonnees()
  */
-export function initPromptIA({ conteneurItems, champPrompt, personnage, donnees }) {
+export function initPromptIA({ conteneurItems, champPrompt, personnage, donnees, caseInclureAffinite }) {
     const competencesData = donnees.competences;
 
     if (!personnage.traitsPsychologiques) {
         personnage.traitsPsychologiques = {};
+    }
+    if (typeof personnage.inclureAffiniteDansPrompt !== 'boolean') {
+        // Par défaut désactivé : l'affinité, mentionnée explicitement,
+        // pousse l'IA vers des résultats trop extrêmes/mutés. Elle doit
+        // rester subtile et sous-entendue, sauf activation volontaire.
+        personnage.inclureAffiniteDansPrompt = false;
     }
 
     competencesData.forEach(competence => {
@@ -130,6 +163,14 @@ export function initPromptIA({ conteneurItems, champPrompt, personnage, donnees 
     function regenerer() {
         champPrompt.value = genererPrompt(personnage, donnees);
         sauvegarderPersonnage(personnage);
+    }
+
+    if (caseInclureAffinite) {
+        caseInclureAffinite.checked = personnage.inclureAffiniteDansPrompt;
+        caseInclureAffinite.addEventListener('change', () => {
+            personnage.inclureAffiniteDansPrompt = caseInclureAffinite.checked;
+            regenerer();
+        });
     }
 
     conteneurItems.innerHTML = competencesData.map(competence => {

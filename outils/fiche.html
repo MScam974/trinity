@@ -78,6 +78,7 @@
             <details class="panneau panneau-principal" open>
                 <summary>Prompt IA — psychologie du personnage <span class="voyant voyant-actif"></span></summary>
                 <p class="texte-info">Règle chaque jauge de faible à fort (pré-rempli à partir de la création, modifiable). Le texte ci-dessous se met à jour automatiquement.</p>
+                <label class="case-option"><input type="checkbox" id="case-inclure-affinite"> Inclure l'affinité dans le prompt (peut donner des résultats plus extrêmes)</label>
                 <div id="trait-items"></div>
                 <textarea id="prompt-ia-texte" rows="6" readonly></textarea>
                 <div class="prompt-actions">
@@ -97,7 +98,7 @@
             </div>
 
             <h2>Compétences</h2>
-            <div id="grille-competences"></div>
+            <div id="tableau-competences"></div>
         </section>
 
         <section class="onglet-contenu" id="onglet-stats">

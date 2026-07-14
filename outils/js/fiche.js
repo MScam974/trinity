@@ -8,7 +8,8 @@
 import { chargerDonnees } from './loader.js';
 import { chargerPersonnageStocke, sauvegarderPersonnage, exporterPersonnageJSON } from './stockage.js';
 import { initOnglets } from './ui.js';
-import { rendreZoneAffinite, rendreGrilleCompetences } from './fiche-competences.js';
+import { rendreZoneAffinite } from './fiche-competences.js';
+import { initTableauCompetences } from './tableau-competences.js';
 import { initPromptIA } from './prompt-ia.js';
 import { initPortrait } from './portrait.js';
 
@@ -62,7 +63,8 @@ async function demarrer() {
         conteneurItems: document.getElementById('trait-items'),
         champPrompt: document.getElementById('prompt-ia-texte'),
         personnage,
-        donnees
+        donnees,
+        caseInclureAffinite: document.getElementById('case-inclure-affinite')
     });
 
     initPortrait({
@@ -93,10 +95,11 @@ async function demarrer() {
         personnage,
         donnees
     });
-    rendreGrilleCompetences({
-        conteneur: document.getElementById('grille-competences'),
+    initTableauCompetences({
+        conteneur: document.getElementById('tableau-competences'),
         personnage,
-        donnees
+        donnees,
+        editable: false
     });
 
     const boutonExport = document.getElementById('bouton-export');

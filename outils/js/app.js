@@ -9,8 +9,7 @@ import { chargerDonnees, chargerQuestionnaire } from './loader.js';
 import { creerPersonnage, appliquerResultatQuestionnaire } from './personnage.js';
 import { initOnglets } from './ui.js';
 import { initQuestionnaire } from './questionnaire.js';
-import { initSelecteursDes } from './creation.js';
-import { initRepartitionAxe } from './competences.js';
+import { initTableauCompetences } from './tableau-competences.js';
 import { sauvegarderPersonnage } from './stockage.js';
 
 async function demarrer() {
@@ -46,40 +45,18 @@ async function demarrer() {
     }
     rendreSelecteurAffinite();
 
-    // Répartition des compétences (Fort/Moyen/Faible) — initialisée avant
-    // les dés pour que les callbacks de creation.js puissent la référencer.
-    const repartitionAttributs = initRepartitionAxe({
-        conteneur: document.getElementById('repartition-attributs'),
-        axe: 'attribut',
-        axeData: donnees.attributs,
-        competencesData: donnees.competences,
+    // Tableau unifié : dés (Attributs x Vocations) + répartition des
+    // compétences, en un seul composant partagé avec la fiche.
+    const tableauCompetences = initTableauCompetences({
+        conteneur: document.getElementById('tableau-competences'),
         personnage,
-        config: donnees.config
-    });
-    const repartitionVocations = initRepartitionAxe({
-        conteneur: document.getElementById('repartition-vocations'),
-        axe: 'vocation',
-        axeData: donnees.vocations,
-        competencesData: donnees.competences,
-        personnage,
-        config: donnees.config
+        donnees,
+        editable: true
     });
 
     function rafraichirRepartitions() {
-        repartitionAttributs.rafraichir();
-        repartitionVocations.rafraichir();
+        tableauCompetences.rafraichir();
     }
-
-    // Dés (mode Création libre)
-    const selecteursDes = initSelecteursDes({
-        conteneurAttributs: document.getElementById('selecteur-attributs'),
-        conteneurVocations: document.getElementById('selecteur-vocations'),
-        personnage,
-        attributsData: donnees.attributs,
-        vocationsData: donnees.vocations,
-        config: donnees.config,
-        surChangement: rafraichirRepartitions
-    });
 
     // Questionnaire
     initQuestionnaire({
@@ -98,7 +75,6 @@ async function demarrer() {
             // que la Création libre : on applique le résultat aux dés,
             // puis on resynchronise les deux vues qui en dépendent.
             appliquerResultatQuestionnaire(personnage, idsVocations, idsAttributs);
-            selecteursDes.synchroniser();
             rafraichirRepartitions();
             rendreSelecteurAffinite();
 
