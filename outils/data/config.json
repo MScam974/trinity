@@ -34,5 +34,39 @@
   "portrait": {
     "traitsCaracterMax": 3,
     "traitsPhysiquesMax": 4
+  },
+  "equipement": {
+    "rarete": {
+      "_commentaire": "Échelle de rareté commune à tout objet (armes, armures, équipements).",
+      "echelle": [
+        { "niveau": 1, "nom": "Commun" },
+        { "niveau": 2, "nom": "Peu commun" },
+        { "niveau": 3, "nom": "Rare" },
+        { "niveau": 4, "nom": "Très rare" },
+        { "niveau": 5, "nom": "Introuvable" }
+      ]
+    },
+    "encombrementMax": {
+      "_commentaire": "Encombrement max porté = bonus(Vocation Exploration) + bonus(Attribut Habileté) + somme des bonusEncombrement des contenants portés (ex: sac à dos). Le bonus par rang réutilise config.des.rangParTaille (fort/moyen/faible), pas une nouvelle donnée.",
+      "bonusParRang": { "fort": 2, "moyen": 1, "faible": 0 }
+    },
+    "qualite": {
+      "_commentaire": "Variante de qualité d'un objet (1 = très mauvaise/cassé, 3 = normal — valeur par défaut de tout objet du catalogue, 5 = exceptionnelle). Chaque point sous la normale ajoute de l'encombrement et peut imposer un malus de dé (Vocation et/ou Attribut) pour les actions utilisant cet objet. Effets au-dessus de la normale non définis pour l'instant (à compléter).",
+      "normal": 3,
+      "effets": {
+        "1": { "encombrementSupplementaire": 2, "malusDeVocation": true, "malusDeAttribut": true },
+        "2": { "encombrementSupplementaire": 1, "malusDeVocation": true, "malusDeAttribut": false },
+        "3": { "encombrementSupplementaire": 0 },
+        "4": { "encombrementSupplementaire": 0 },
+        "5": { "encombrementSupplementaire": 0 }
+      }
+    },
+    "typesPenalite": {
+      "_commentaire": "Deux types de pénalité prévus pour les armes exotiques : 'seuil' (augmente le seuil de réussite, seul type utilisé pour l'instant) et 'de' (réduirait la taille du dé Vocation/Attribut, pas encore utilisé).",
+      "types": ["seuil", "de"]
+    },
+    "penaliteAffiniteCroisee": {
+      "_commentaire": "Un personnage utilisant un objet dont l'affinité diffère de la sienne (et n'est pas 'commune') doit subir une pénalité — règle pas encore définie précisément, à trancher avant de l'implémenter dans le moteur de résolution."
+    }
   }
 }

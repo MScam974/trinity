@@ -1,0 +1,11 @@
+[
+  { "id": "perforant",   "nom": "Perforant",   "description": "Ignore une partie de la protection adverse" },
+  { "id": "rapide",      "nom": "Rapide",      "description": "Peut être utilisé en premier / plusieurs fois" },
+  { "id": "silencieux",  "nom": "Silencieux",  "description": "Ne trahit pas la position de son utilisateur" },
+  { "id": "precis",      "nom": "Précis",      "description": "Facilite la visée sur une cible spécifique" },
+  { "id": "lourd",       "nom": "Lourd",       "description": "Frappe fort mais ralentit son porteur" },
+  { "id": "fiable",      "nom": "Fiable",      "description": "Ne s'enraye et ne se brise presque jamais" },
+  { "id": "polyvalent",  "nom": "Polyvalent",  "description": "Utilisable dans plusieurs situations différentes" },
+  { "id": "modulable",   "nom": "Modulable",   "description": "Peut être adapté/amélioré avec le bon équipement" },
+  { "id": "devastateur", "nom": "Dévastateur", "description": "Dégâts exceptionnels, souvent en zone" }
+]

@@ -1,0 +1,11 @@
+[
+  { "id": "veste-cuir", "nom": "Veste de cuir légère", "rarete": 1, "encombrement": 1, "qualite": 3, "affinite": "commune",
+    "protection": 1,
+    "description": "Protection minimale, ne gêne pas les mouvements." },
+  { "id": "gilet-pare-balles", "nom": "Gilet pare-balles", "rarete": 3, "encombrement": 2, "qualite": 3, "affinite": "commune",
+    "protection": 2,
+    "description": "Standard militaire, efficace contre les projectiles." },
+  { "id": "armure-fortune", "nom": "Armure lourde de fortune", "rarete": 2, "encombrement": 3, "qualite": 3, "affinite": "commune",
+    "protection": 3,
+    "description": "Plaques métalliques assemblées, lourdes mais solides." }
+]

@@ -1,0 +1,19 @@
+[
+  { "id": "radio-portable", "nom": "Radio portable", "rarete": 2, "encombrement": 1, "qualite": 3, "affinite": "commune",
+    "description": "Talkie-walkie longue portée, standard militaire." },
+  { "id": "baton-lumineux", "nom": "Bâton lumineux", "rarete": 1, "encombrement": 0, "qualite": 3, "affinite": "commune",
+    "description": "Se casse pour activer une lumière chimique de plusieurs heures." },
+  { "id": "corde", "nom": "Corde (10m)", "rarete": 1, "encombrement": 1, "qualite": 3, "affinite": "commune",
+    "description": "Corde synthétique, résistante à l'humidité." },
+  { "id": "kit-premiers-secours", "nom": "Kit de premiers secours", "rarete": 2, "encombrement": 1, "qualite": 3, "affinite": "commune",
+    "description": "Pansements, garrot, désinfectant." },
+  { "id": "couteau-suisse", "nom": "Couteau suisse", "rarete": 1, "encombrement": 0, "qualite": 3, "affinite": "commune",
+    "description": "Petit outil multifonction du quotidien." },
+  { "id": "masque-filtrant", "nom": "Masque filtrant", "rarete": 3, "encombrement": 1, "qualite": 3, "affinite": "commune",
+    "description": "Protège des spores et particules en suspension — utile contre la Peste Écarlate." },
+  { "id": "rations-survie", "nom": "Rations de survie", "rarete": 1, "encombrement": 0, "qualite": 3, "affinite": "commune",
+    "description": "Nourriture longue conservation, une semaine d'autonomie." },
+  { "id": "sac-a-dos", "nom": "Sac à dos", "rarete": 1, "encombrement": 0, "qualite": 3, "affinite": "commune",
+    "bonusEncombrement": 3,
+    "description": "Porté sur le dos, augmente la capacité de transport." }
+]
