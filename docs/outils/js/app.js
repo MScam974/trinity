@@ -13,6 +13,18 @@ import { initTableauCompetences } from './tableau-competences.js';
 import { sauvegarderPersonnage, chargerPersonnageStocke, effacerPersonnageStocke, importerPersonnageJSON } from './stockage.js';
 
 async function demarrer() {
+    // Thème clair / sombre, persisté (partagé avec fiche.html).
+    const boutonTheme = document.getElementById('bouton-theme');
+    function appliquerTheme(theme) {
+        document.body.classList.toggle('theme-clair', theme === 'clair');
+    }
+    appliquerTheme(localStorage.getItem('trynyty-theme') || 'sombre');
+    boutonTheme?.addEventListener('click', () => {
+        const nouveauTheme = document.body.classList.contains('theme-clair') ? 'sombre' : 'clair';
+        appliquerTheme(nouveauTheme);
+        localStorage.setItem('trynyty-theme', nouveauTheme);
+    });
+
     const donnees = await chargerDonnees();
     const questionnaireData = await chargerQuestionnaire();
 
@@ -37,6 +49,11 @@ async function demarrer() {
     panneauGestion.hidden = !afficherGestion;
     zoneOnglets.hidden = afficherGestion;
     zoneContenus.hidden = afficherGestion;
+
+    document.getElementById('bouton-ouvrir-fiche')?.addEventListener('click', () => {
+        sauvegarderPersonnage(personnage);
+        window.open('fiche.html', '_blank');
+    });
 
     document.getElementById('bouton-sauvegarder')?.addEventListener('click', (e) => {
         sauvegarderPersonnage(personnage);

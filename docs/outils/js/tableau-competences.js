@@ -186,11 +186,33 @@ export function initTableauCompetences({ conteneur, personnage, donnees, editabl
         `;
     }
 
+    function calculerAidesRestantes() {
+        const nombreParRang = config.repartitionCompetences.nombreParRang;
+        const messages = [];
+        [['attribut', attributs, personnage.attributs], ['vocation', vocations, personnage.vocations]].forEach(([axe, axeData, des]) => {
+            const rangs = determinerRangs(des, config);
+            axeData.forEach(item => {
+                const rang = rangs[item.id];
+                if (!rang || rang === 'fort') return; // fort = automatique, rien à choisir
+                const nombreAChoisir = nombreParRang[rang] ?? 0;
+                const selection = personnage.selectionsCompetences[axe][item.id] || [];
+                const restant = nombreAChoisir - selection.length;
+                if (restant > 0) {
+                    messages.push(`Il te reste ${restant} compétence${restant > 1 ? 's' : ''} à choisir pour ${item.nom}`);
+                }
+            });
+        });
+        return messages;
+    }
+
     function rendre() {
         normaliserSelections();
         recalculerNiveaux(personnage, competencesData, config);
 
+        const aides = editable ? calculerAidesRestantes() : [];
+
         conteneur.innerHTML = `
+            ${aides.length ? `<div class="aide-restante">${aides.map(m => `<p>${m}</p>`).join('')}</div>` : ''}
             <table class="tableau-competences">
                 <thead>
                     <tr>

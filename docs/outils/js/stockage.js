@@ -34,7 +34,10 @@ export function effacerPersonnageStocke() {
  * Déclenche le téléchargement du personnage sous forme de fichier .json.
  */
 export function exporterPersonnageJSON(personnage, nomFichier) {
-    const nom = nomFichier || `${(personnage.profil.nom || 'personnage').trim().replace(/\s+/g, '-').toLowerCase() || 'personnage'}.json`;
+    const nettoyer = (texte, repli) => (texte || repli).trim().replace(/\s+/g, '-').toLowerCase() || repli;
+    const joueur = nettoyer(personnage.profil.joueur, 'joueur');
+    const perso = nettoyer(personnage.profil.nom, 'personnage');
+    const nom = nomFichier || `${joueur}_${perso}.json`;
     const contenu = JSON.stringify(personnage, null, 2);
     const blob = new Blob([contenu], { type: 'application/json' });
     const url = URL.createObjectURL(blob);

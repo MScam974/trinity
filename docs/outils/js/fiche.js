@@ -15,7 +15,8 @@
  */
 
 import { chargerDonnees } from './loader.js';
-import { chargerPersonnageStocke, sauvegarderPersonnage, exporterPersonnageJSON } from './stockage.js';
+import { chargerPersonnageStocke, sauvegarderPersonnage, exporterPersonnageJSON, effacerPersonnageStocke, importerPersonnageJSON } from './stockage.js';
+import { creerPersonnage } from './personnage.js';
 import { initOnglets } from './ui.js';
 import { rendreZoneAffinite } from './fiche-competences.js';
 import { initTableauCompetences, xpDepensee, xpDisponible } from './tableau-competences.js';
@@ -171,10 +172,57 @@ async function demarrer() {
         rafraichirSynthetiques();
     });
 
-    const boutonExport = document.getElementById('bouton-export');
-    if (boutonExport) {
-        boutonExport.addEventListener('click', () => exporterPersonnageJSON(personnage));
+    // Menu burger (plein écran) : export, chargement, actions de reset.
+    const menuBurger = document.getElementById('menu-burger');
+    document.getElementById('bouton-menu')?.addEventListener('click', () => { menuBurger.hidden = false; });
+    document.getElementById('bouton-fermer-menu')?.addEventListener('click', () => { menuBurger.hidden = true; });
+
+    document.getElementById('menu-exporter')?.addEventListener('click', () => exporterPersonnageJSON(personnage));
+
+    const menuChampFichier = document.getElementById('menu-fichier-charger');
+    document.getElementById('menu-charger')?.addEventListener('click', () => menuChampFichier.click());
+    menuChampFichier?.addEventListener('change', async () => {
+        const fichier = menuChampFichier.files[0];
+        if (!fichier) return;
+        try {
+            const personnageCharge = await importerPersonnageJSON(fichier);
+            sauvegarderPersonnage(personnageCharge);
+            location.reload();
+        } catch (erreur) {
+            alert('Fichier invalide : ' + erreur.message);
+        }
+    });
+
+    document.getElementById('menu-reset-questionnaire')?.addEventListener('click', () => {
+        if (!confirm('Repartir de zéro avec le questionnaire ? Le personnage actuel sera remplacé.')) return;
+        sauvegarderPersonnage(creerPersonnage());
+        sessionStorage.setItem('trynyty-action-forcee', 'questionnaire');
+        location.href = 'index.html';
+    });
+    document.getElementById('menu-reset-libre')?.addEventListener('click', () => {
+        if (!confirm('Repartir de zéro en création libre ? Le personnage actuel sera remplacé.')) return;
+        sauvegarderPersonnage(creerPersonnage());
+        sessionStorage.setItem('trynyty-action-forcee', 'creation-libre');
+        location.href = 'index.html';
+    });
+    document.getElementById('menu-reset-total')?.addEventListener('click', () => {
+        if (!confirm('Effacer entièrement ce personnage ? Cette action est irréversible.')) return;
+        effacerPersonnageStocke();
+        location.href = 'index.html';
+    });
+
+    // Thème clair / sombre, persisté (partagé avec index.html via localStorage).
+    const boutonTheme = document.getElementById('bouton-theme');
+    function appliquerTheme(theme) {
+        document.body.classList.toggle('theme-clair', theme === 'clair');
     }
+    const themeStocke = localStorage.getItem('trynyty-theme') || 'sombre';
+    appliquerTheme(themeStocke);
+    boutonTheme?.addEventListener('click', () => {
+        const nouveauTheme = document.body.classList.contains('theme-clair') ? 'sombre' : 'clair';
+        appliquerTheme(nouveauTheme);
+        localStorage.setItem('trynyty-theme', nouveauTheme);
+    });
 
     initEquipement({
         conteneur: document.getElementById('zone-equipement'),

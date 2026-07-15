@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="css/base.css">
 </head>
 <body>
-    <header>
+    <header class="entete-simple">
         <h1>Trynyty <span class="sous-titre">Rémanence</span></h1>
+        <button id="bouton-theme" class="bouton-icone" title="Thème clair / sombre">🌓</button>
     </header>
 
     <main>
@@ -16,6 +17,7 @@
             <h2>Personnage en cours</h2>
             <p class="texte-info">Un personnage existe déjà dans ce navigateur. Modifie-le directement ci-dessous, ou choisis une action :</p>
             <div class="gestion-actions">
+                <button id="bouton-ouvrir-fiche">👁️ Ouvrir la fiche</button>
                 <button id="bouton-sauvegarder">💾 Sauvegarder</button>
                 <button id="bouton-charger">📂 Charger un JSON</button>
                 <input type="file" id="fichier-charger" accept="application/json" hidden>

@@ -402,3 +402,42 @@ button:active { transform: translateY(1px); }
 .gestion-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin: .8rem 0; }
 .gestion-actions-danger button { border-color: var(--danger); color: var(--danger-vif); }
 .gestion-actions-danger button:hover { background: rgba(193,98,45,.12); }
+
+/* ---------- Thème clair ---------- */
+body.theme-clair {
+    --bg: #f3efe4;
+    --surface: #ffffff;
+    --surface-2: #eae4d2;
+    --border: #d9d1ba;
+    --border-vif: #c2b895;
+    --texte: #22271f;
+    --texte-att: #4c5343;
+    --texte-faible: #7c8271;
+    --accent: #2f7f6c;
+    --accent-vif: #1f5c4e;
+    --accent-texte: #ffffff;
+    --danger: #a8481f;
+    --danger-vif: #8a3717;
+    --succes: #3f7a2e;
+}
+body.theme-clair { background-image: linear-gradient(180deg, rgba(47,127,108,.05), transparent 240px); }
+
+/* ---------- En-tête simple (index.html) ---------- */
+.entete-simple { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border); }
+.entete-simple h1 { font-size: 1.1rem; margin: 0; }
+
+/* ---------- Menu burger plein écran (fiche.html) ---------- */
+.menu-burger {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    padding: 1rem;
+    padding-top: calc(1rem + env(safe-area-inset-top));
+}
+.menu-burger-entete { display: flex; justify-content: space-between; align-items: center; font-family: var(--police-libelle); text-transform: uppercase; letter-spacing: .08em; font-size: .85rem; margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid var(--border); }
+.menu-burger-actions { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.5rem; }
+.menu-burger-actions button { padding: .9rem; text-align: left; font-size: .82rem; }
+
+/* ---------- Aide textuelle (compétences restant à choisir) ---------- */
+.aide-restante { background: rgba(79,158,138,.1); border: 1px solid var(--accent); border-radius: var(--rayon); padding: .6rem .9rem; margin-bottom: .8rem; }
+.aide-restante p { margin: .2rem 0; font-size: .82rem; color: var(--accent-vif); }

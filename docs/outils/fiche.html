@@ -17,9 +17,27 @@
         </div>
         <div class="entete-actions">
             <button id="bouton-mode" class="bouton-mode" title="Basculer Jeu / Édition">🎮 Jeu</button>
-            <button id="bouton-export" class="bouton-icone" title="Exporter en JSON">⭳</button>
+            <button id="bouton-theme" class="bouton-icone" title="Thème clair / sombre">🌓</button>
+            <button id="bouton-menu" class="bouton-icone" title="Menu">☰</button>
         </div>
     </header>
+
+    <div id="menu-burger" class="menu-burger" hidden>
+        <div class="menu-burger-entete">
+            <span>Menu</span>
+            <button id="bouton-fermer-menu" class="bouton-icone" title="Fermer">✕</button>
+        </div>
+        <div class="menu-burger-actions">
+            <button id="menu-exporter">💾 Exporter en JSON</button>
+            <button id="menu-charger">📂 Charger un JSON</button>
+            <input type="file" id="menu-fichier-charger" accept="application/json" hidden>
+        </div>
+        <div class="menu-burger-actions gestion-actions-danger">
+            <button id="menu-reset-questionnaire">🔁 Reset : relancer le questionnaire</button>
+            <button id="menu-reset-libre">🔁 Reset : relancer la création libre</button>
+            <button id="menu-reset-total">🗑️ Reset total</button>
+        </div>
+    </div>
 
     <main id="contenus-fiche" class="contenu-principal">
         <section class="onglet-contenu actif" id="onglet-personnage">
