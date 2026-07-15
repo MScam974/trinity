@@ -13,6 +13,7 @@ import { initTableauCompetences, xpDepensee, xpDisponible } from './tableau-comp
 import { initPromptIA } from './prompt-ia.js';
 import { initPortrait } from './portrait.js';
 import { initEquipement } from './equipement.js';
+import { rendreCompetencesPassives, initJaugesVie } from './stats.js';
 
 function rendreOngletPersonnage(personnage, donnees) {
     const champNomPerso = document.getElementById('fiche-nom-perso');
@@ -126,6 +127,17 @@ async function demarrer() {
 
     initEquipement({
         conteneur: document.getElementById('zone-equipement'),
+        personnage,
+        donnees
+    });
+
+    rendreCompetencesPassives({
+        conteneur: document.getElementById('competences-passives'),
+        personnage,
+        donnees
+    });
+    initJaugesVie({
+        conteneur: document.getElementById('jauges-vie'),
         personnage,
         donnees
     });

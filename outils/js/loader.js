@@ -38,7 +38,8 @@ export async function chargerDonnees() {
         armes,
         armures,
         equipements,
-        avantages
+        avantages,
+        competencesPassives
     ] = await Promise.all([
         chargerJSON('config'),
         chargerJSON('affinites'),
@@ -52,12 +53,14 @@ export async function chargerDonnees() {
         chargerJSON('armes'),
         chargerJSON('armures'),
         chargerJSON('equipements'),
-        chargerJSON('avantages')
+        chargerJSON('avantages'),
+        chargerJSON('competences-passives')
     ]);
 
     return {
         config, affinites, vocations, attributs, competences, specialisations,
-        portraits, triangleAffinite, monde, armes, armures, equipements, avantages
+        portraits, triangleAffinite, monde, armes, armures, equipements, avantages,
+        competencesPassives
     };
 }
 

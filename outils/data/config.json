@@ -85,5 +85,34 @@
       "malusInitial": 1,
       "palierInitial": 5
     }
+  },
+  "competencesPassives": {
+    "_commentaire": "Les compétences passives (résistances) sont un reflet automatique des compétences actives : même niveau (0-5), lu directement depuis personnage.competences via le champ competenceActive de data/competences-passives.json. Aucune répartition séparée à la création.",
+    "seuilsResistance": {
+      "_commentaire": "Sens inversé des seuils actifs : c'est l'ADVERSAIRE (ou l'environnement) qui doit battre ce seuil, pas le personnage. Plus le niveau est haut, plus c'est difficile pour l'adversaire.",
+      "table": [
+        { "niveau": 0, "seuil": "0+" },
+        { "niveau": 1, "seuil": "3+" },
+        { "niveau": 2, "seuil": "4+" },
+        { "niveau": 3, "seuil": "5+" },
+        { "niveau": 4, "seuil": "6+" },
+        { "niveau": 5, "seuil": "7+" }
+      ]
+    },
+    "jaugeParVocation": {
+      "_commentaire": "Quelle jauge de vie correspond à quelle Vocation, et quel dé en détermine la taille (le dé de cette Vocation, déjà choisi en création).",
+      "exploration": { "id": "endurance", "nom": "Endurance" },
+      "interaction": { "id": "integrite", "nom": "Intégrité" },
+      "action": { "id": "tenacite", "nom": "Ténacité" }
+    },
+    "jaugesVie": {
+      "_commentaire": "Taille de la jauge = valeur du dé de la Vocation liée (config.des.valeurs). Cases perdues comptées DEPUIS LE DÉBUT (pleine forme) ; la zone dépend du nombre de cases déjà perdues, pas des cases restantes. La dernière case perdue = HS. Rien n'est automatisé en jeu (dégâts/soins) : le joueur coche/décoche lui-même sur la fiche.",
+      "zonesParDe": {
+        "d6":  [ { "zone": "rien", "cases": 3 }, { "zone": "malus1", "cases": 1 }, { "zone": "malus2", "cases": 1 }, { "zone": "hs", "cases": 1 } ],
+        "d8":  [ { "zone": "rien", "cases": 4 }, { "zone": "malus1", "cases": 2 }, { "zone": "malus2", "cases": 1 }, { "zone": "hs", "cases": 1 } ],
+        "d10": [ { "zone": "rien", "cases": 4 }, { "zone": "malus1", "cases": 3 }, { "zone": "malus2", "cases": 2 }, { "zone": "hs", "cases": 1 } ]
+      },
+      "libellesZones": { "rien": "Ça va", "malus1": "+1 au seuil", "malus2": "+2 au seuil", "hs": "HS" }
+    }
   }
 }

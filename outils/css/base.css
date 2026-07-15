@@ -128,3 +128,17 @@ main input[type="text"], main textarea { width: 100%; background: #1a1c24; color
 .colonne-encombrement { text-align: center; }
 .bouton-retirer { background: #5a1a1a; color: #fff; border: none; cursor: pointer; padding: .2rem .5rem; }
 #bouton-ajouter-objet { margin-top: .6rem; padding: .4rem .8rem; }
+
+/* Stats : jauges de vie + compétences passives */
+.entete-sous-titre { font-size: .7rem; color: #888; font-weight: normal; }
+.jauge-vie { margin-bottom: 1.2rem; }
+.jauge-vie-titre { font-weight: bold; margin-bottom: .3rem; }
+.jauge-vie-de { font-size: .75rem; color: #888; margin-left: .5rem; }
+.jauge-vie-etat { font-size: .75rem; margin-left: .6rem; padding: .05rem .4rem; border-radius: 3px; }
+.jauge-vie-etat-rien { background: #2a4a2a; color: #9fdf9f; }
+.jauge-vie-etat-malus1 { background: #4a3a1a; color: #ffcf7f; }
+.jauge-vie-etat-malus2 { background: #4a2a1a; color: #ff9f7f; }
+.jauge-vie-etat-hs { background: #4a1a1a; color: #ff7f7f; }
+.jauge-vie-pips { display: flex; gap: .3rem; }
+.pip-vie { width: 22px; height: 22px; border: 2px solid #666; background: transparent; border-radius: 3px; cursor: pointer; padding: 0; }
+.pip-vie.pip-perdue { background: #5a1a1a; border-color: #8a2a2a; }

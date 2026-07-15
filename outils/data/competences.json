@@ -1,65 +1,22 @@
 [
-  {
-    "id": "athletisme", "nom": "Athlétisme", "vocation": "exploration", "attribut": "habilete", "verbes": "Grimper, Sauter, Franchir",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Intrépide", "Audacieux"],
-    "traitsDefaut": ["Prudent", "Casanier"]
-  },
-  {
-    "id": "survie", "nom": "Survie", "vocation": "exploration", "attribut": "instinct", "verbes": "Pister, Orienter, Chasser",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Débrouillard", "Résilient"],
-    "traitsDefaut": ["Confiant", "Dépendant"]
-  },
-  {
-    "id": "observation", "nom": "Observation", "vocation": "exploration", "attribut": "intellect", "verbes": "Fouiller, Surveiller, Analyser",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Perspicace", "Curieux"],
-    "traitsDefaut": ["Rêveur", "Distrait"]
-  },
-  {
-    "id": "presence", "nom": "Présence", "vocation": "interaction", "attribut": "habilete", "verbes": "Imposer, Intimider, Maintenir",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Assuré", "Charismatique"],
-    "traitsDefaut": ["Discret", "Réservé"]
-  },
-  {
-    "id": "persuasion", "nom": "Persuasion", "vocation": "interaction", "attribut": "instinct", "verbes": "Convaincre, Négocier, Apaiser",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Diplomate", "Empathique"],
-    "traitsDefaut": ["Indépendant", "Peu démonstratif"]
-  },
-  {
-    "id": "bluff", "nom": "Bluff", "vocation": "interaction", "attribut": "intellect", "verbes": "Tromper, Feindre, Manipuler",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Rusé", "Calculateur"],
-    "traitsDefaut": ["Franc", "Naïf"]
-  },
-  {
-    "id": "combat", "nom": "Combat", "vocation": "action", "attribut": "habilete", "verbes": "CàC, Distance, Lourde",
-    "specialitesGeneriques": ["Arc", "Épée", "Lance"],
-    "specialitesAffinite": { "harmonie": "Griffes / Crocs", "purete": "Poings du Chi", "suprematie": "Technogreffe" },
-    "traitsQualite": ["Combatif", "Déterminé"],
-    "traitsDefaut": ["Pacifique", "Mesuré"]
-  },
-  {
-    "id": "discretion", "nom": "Discrétion", "vocation": "action", "attribut": "instinct", "verbes": "Se cacher, Infiltrer, Silencer",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Prévoyant", "Prudent"],
-    "traitsDefaut": ["Spontané", "Insouciant"]
-  },
-  {
-    "id": "artisanat", "nom": "Artisanat", "vocation": "action", "attribut": "intellect", "verbes": "Réparer, Crocheter, Fabriquer",
-    "specialitesGeneriques": [],
-    "specialitesAffinite": { "harmonie": "", "purete": "", "suprematie": "" },
-    "traitsQualite": ["Ingénieux", "Inventif"],
-    "traitsDefaut": ["Pratique", "Peu manuel"]
-  }
+  { "id": "resistance",  "nom": "Résistance",  "vocation": "exploration", "attribut": "habilete",  "competenceActive": "athletisme",
+    "verbes": "Endurer, S'adapter, Survivre", "description": "Tenir le coup face à la fatigue, la faim, la soif, le froid extrême." },
+  { "id": "immunite",    "nom": "Immunité",    "vocation": "exploration", "attribut": "instinct",  "competenceActive": "survie",
+    "verbes": "Immuniser, Purifier, Guérir", "description": "Résister aux maladies, toxines, radiations, infections." },
+  { "id": "vigilance",   "nom": "Vigilance",   "vocation": "exploration", "attribut": "intellect", "competenceActive": "observation",
+    "verbes": "Surveiller, Prévoir, Avertir", "description": "Détecter les dangers avant qu'ils ne frappent, anticiper les embuscades." },
+
+  { "id": "fermete",     "nom": "Fermeté",     "vocation": "interaction", "attribut": "habilete",  "competenceActive": "presence",
+    "verbes": "Tenir, Ignorer, Repousser", "description": "Résister à l'intimidation, rester stoïque face aux menaces." },
+  { "id": "scepticisme", "nom": "Scepticisme", "vocation": "interaction", "attribut": "instinct",  "competenceActive": "persuasion",
+    "verbes": "Douter, Analyser, Démasquer", "description": "Ne pas se laisser convaincre, voir à travers la manipulation." },
+  { "id": "lucidite",    "nom": "Lucidité",    "vocation": "interaction", "attribut": "intellect", "competenceActive": "bluff",
+    "verbes": "Discerner, Rester clair, Déjouer", "description": "Résister au bluff, aux illusions, aux drogues, aux hallucinations." },
+
+  { "id": "robustesse",         "nom": "Robustesse",           "vocation": "action", "attribut": "habilete",  "competenceActive": "combat",
+    "verbes": "Absorber, Encaisser, Rebondir", "description": "Encaisser les coups, les chutes, les explosions sans s'effondrer." },
+  { "id": "discretion-defensive","nom": "Discrétion défensive", "vocation": "action", "attribut": "instinct",  "competenceActive": "discretion",
+    "verbes": "Se dissimuler, Faire le mort, S'effacer", "description": "Se fondre dans l'environnement pour éviter d'être détecté." },
+  { "id": "ingeniosite",        "nom": "Ingéniosité",          "vocation": "action", "attribut": "intellect", "competenceActive": "artisanat",
+    "verbes": "Bricoler, Contourner, Désamorcer", "description": "Improviser des défenses, réparer en urgence, détourner des pièges." }
 ]
