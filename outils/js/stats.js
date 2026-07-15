@@ -52,7 +52,7 @@ export function rendreCompetencesPassives({ conteneur, personnage, donnees }) {
                             if (!passive) return '<td></td>';
                             const niveau = (personnage.competences[passive.competenceActive] || { niveau: 0 }).niveau;
                             return `
-                                <td class="cellule-competence">
+                                <td class="cellule-competence" data-label="${jaugeParVocation[v.id]?.nom || v.nom} · ${a.nom}">
                                     <div class="competence-nom">${passive.nom}</div>
                                     <div class="competence-verbes">${passive.verbes}</div>
                                     <div class="competence-niveau">Niveau ${niveau} · Seuil adverse ${seuilResistance(niveau)}</div>
@@ -79,7 +79,9 @@ export function initJaugesVie({ conteneur, personnage, donnees, surChangement })
     }
 
     function rendre() {
-        conteneur.innerHTML = Object.entries(jaugeParVocation).map(([vocationId, jauge]) => {
+        conteneur.innerHTML = Object.entries(jaugeParVocation)
+            .filter(([cle]) => cle !== '_commentaire')
+            .map(([vocationId, jauge]) => {
             const taille = personnage.vocations[vocationId];
             const total = taille ? (config.des.valeurs[taille] || 0) : 0;
             const zones = taille ? (zonesParDe[taille] || []) : [];

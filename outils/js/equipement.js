@@ -37,17 +37,19 @@ function rangDe(taille, config) {
  * bonusEncombrement des objets possédés (ex: un sac à dos).
  */
 export function calculerEncombrementMax(personnage, donnees) {
-    const { bonusParRang } = donnees.config.equipement.encombrementMax;
+    const { bonusParRang, plancherMinimum } = donnees.config.equipement.encombrementMax;
     const catalogue = catalogueComplet(donnees);
 
     const bonusExploration = bonusParRang[rangDe(personnage.vocations.exploration, donnees.config)] || 0;
     const bonusHabilete = bonusParRang[rangDe(personnage.attributs.habilete, donnees.config)] || 0;
+    const base = Math.max(bonusExploration + bonusHabilete, plancherMinimum || 0);
+
     const bonusContenants = personnage.inventaire
         .map(instance => trouverDansCatalogue(instance, catalogue))
         .filter(Boolean)
         .reduce((somme, item) => somme + (item.bonusEncombrement || 0), 0);
 
-    return bonusExploration + bonusHabilete + bonusContenants;
+    return base + bonusContenants;
 }
 
 /**
@@ -132,19 +134,19 @@ export function initEquipement({ conteneur, personnage, donnees, surChangement }
 
         return `
             <tr class="ligne-inventaire" data-instance-id="${instance.id}">
-                <td class="colonne-emplacement">${libelleEmplacement}</td>
-                <td>
+                <td class="colonne-emplacement" data-label="Emplacement">${libelleEmplacement}</td>
+                <td data-label="Objet">
                     <select class="select-objet">${optionsCatalogue(catalogue, instance.catalogueId ? `${instance.typeCatalogue}:${instance.catalogueId}` : '')}</select>
                 </td>
-                <td class="colonne-qualite">
+                <td class="colonne-qualite" data-label="Qualité">
                     ${instance.origine === 'creation'
                         ? `${instance.qualite} · ${nomQualite(instance.qualite)}`
                         : `<select class="select-qualite">${niveauxQualite.map(n => `<option value="${n.niveau}" ${n.niveau === instance.qualite ? 'selected' : ''}>${n.niveau} · ${n.nom}</option>`).join('')}</select>`
                     }
                 </td>
-                <td class="colonne-encombrement">${item ? item.encombrement : '—'}</td>
-                <td><input type="text" class="champ-note" placeholder="Note libre..." value="${(instance.note || '').replace(/"/g, '&quot;')}"></td>
-                <td>${instance.origine === 'jeu' ? '<button class="bouton-retirer" title="Retirer">✕</button>' : ''}</td>
+                <td class="colonne-encombrement" data-label="Encombrement">${item ? item.encombrement : '—'}</td>
+                <td data-label="Note"><input type="text" class="champ-note" placeholder="Note libre..." value="${(instance.note || '').replace(/"/g, '&quot;')}"></td>
+                <td data-label="">${instance.origine === 'jeu' ? '<button class="bouton-retirer" title="Retirer">✕</button>' : ''}</td>
             </tr>
         `;
     }

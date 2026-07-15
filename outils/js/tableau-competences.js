@@ -162,8 +162,11 @@ export function initTableauCompetences({ conteneur, personnage, donnees, editabl
             // Remplissage différé après insertion dans le DOM (voir plus bas).
         }
 
+        const nomVocation = (vocations.find(v => v.id === competence.vocation) || {}).nom || '';
+        const nomAttribut = (attributs.find(a => a.id === competence.attribut) || {}).nom || '';
+
         return `
-            <td class="cellule-competence" data-competence-id="${competence.id}">
+            <td class="cellule-competence" data-competence-id="${competence.id}" data-label="${nomVocation} · ${nomAttribut}">
                 <div class="competence-nom">${competence.nom}</div>
                 <div class="competence-verbes">${competence.verbes || ''}</div>
                 <div class="competence-checks">
