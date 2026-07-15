@@ -24,8 +24,9 @@ function logoDe(taille) {
  * @param {object[]} options.items - competences ou competencesPassives (même forme vocation/attribut/nom)
  * @param {(item: object) => number} options.niveauDe - extrait le niveau d'un item
  * @param {(niveau: number) => string} options.seuilDe - seuil affiché pour un niveau
+ * @param {(item: object) => string} [options.motsDe] - mots-clés fort/faible à afficher, si applicable
  */
-export function rendreVueSynthetique({ conteneur, personnage, donnees, items, niveauDe, seuilDe }) {
+export function rendreVueSynthetique({ conteneur, personnage, donnees, items, niveauDe, seuilDe, motsDe }) {
     const { vocations, attributs } = donnees;
 
     const grille = `
@@ -64,6 +65,7 @@ export function rendreVueSynthetique({ conteneur, personnage, donnees, items, ni
                         <span class="synth-ligne-des">${deAttribut}+${deVocation}</span>
                         <span class="synth-ligne-pips">${pipsTexte(niveau)}</span>
                         <span class="synth-ligne-seuil">${seuilDe(niveau)}</span>
+                        ${motsDe ? `<span class="synth-ligne-mots">${motsDe(item)}</span>` : ''}
                     </div>
                 `;
             }).join('')}

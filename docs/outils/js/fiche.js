@@ -92,7 +92,8 @@ async function demarrer() {
         champPrompt: document.getElementById('prompt-ia-texte'),
         personnage,
         donnees,
-        caseInclureAffinite: document.getElementById('case-inclure-affinite')
+        caseInclureAffinite: document.getElementById('case-inclure-affinite'),
+        surChangement: () => rafraichirSynthetiques()
     });
 
     initPortrait({
@@ -126,6 +127,13 @@ async function demarrer() {
 
     // Vues synthétiques (mode Jeu) : rendues une fois, puis rafraîchies à
     // chaque changement fait côté Édition (dés, cases, XP).
+    function motsDePourCompetence(item) {
+        const jauge = personnage.traitsPsychologiques[item.id];
+        if (jauge === 'fort' && item.traitsQualite?.length) return item.traitsQualite.join(' / ');
+        if (jauge === 'faible' && item.traitsDefaut?.length) return item.traitsDefaut.join(' / ');
+        return '';
+    }
+
     function rafraichirSynthetiques() {
         rendreVueSynthetique({
             conteneur: document.getElementById('competences-synthetique'),
@@ -133,7 +141,8 @@ async function demarrer() {
             donnees,
             items: donnees.competences,
             niveauDe: (item) => (personnage.competences[item.id] || { niveau: 0 }).niveau + (personnage.progressionCompetences[item.id] || 0),
-            seuilDe: (niveau) => `Seuil ${seuilPourNiveau(niveau, donnees.config)}`
+            seuilDe: (niveau) => `Seuil ${seuilPourNiveau(niveau, donnees.config)}`,
+            motsDe: motsDePourCompetence
         });
         rendreVueSynthetique({
             conteneur: document.getElementById('passives-synthetique'),

@@ -10,7 +10,7 @@ import { creerPersonnage, appliquerResultatQuestionnaire } from './personnage.js
 import { initOnglets } from './ui.js';
 import { initQuestionnaire } from './questionnaire.js';
 import { initTableauCompetences } from './tableau-competences.js';
-import { sauvegarderPersonnage, chargerPersonnageStocke, effacerPersonnageStocke, importerPersonnageJSON } from './stockage.js';
+import { sauvegarderPersonnage, exporterPersonnageJSON, chargerPersonnageStocke, effacerPersonnageStocke, importerPersonnageJSON } from './stockage.js';
 
 async function demarrer() {
     // Thème clair / sombre, persisté (partagé avec fiche.html).
@@ -57,6 +57,7 @@ async function demarrer() {
 
     document.getElementById('bouton-sauvegarder')?.addEventListener('click', (e) => {
         sauvegarderPersonnage(personnage);
+        exporterPersonnageJSON(personnage);
         const bouton = e.currentTarget;
         const libelle = bouton.textContent;
         bouton.textContent = '✓ Sauvegardé';

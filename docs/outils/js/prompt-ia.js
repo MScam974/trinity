@@ -140,7 +140,7 @@ function trouverTraitPhysique(id, portraits) {
  * @param {object} options.personnage
  * @param {object} options.donnees - résultat complet de chargerDonnees()
  */
-export function initPromptIA({ conteneurItems, champPrompt, personnage, donnees, caseInclureAffinite }) {
+export function initPromptIA({ conteneurItems, champPrompt, personnage, donnees, caseInclureAffinite, surChangement }) {
     const competencesData = donnees.competences;
 
     if (!personnage.traitsPsychologiques) {
@@ -153,8 +153,17 @@ export function initPromptIA({ conteneurItems, champPrompt, personnage, donnees,
         personnage.inclureAffiniteDansPrompt = false;
     }
 
+    if (!personnage.traitsPsychologiquesManuels) {
+        // Liste des compétences dont la jauge a été explicitement modifiée
+        // par le joueur — pour elles seulement on respecte la valeur
+        // enregistrée. Les autres se resynchronisent toujours sur le
+        // niveau réel (corrige un pré-remplissage qui restait figé même
+        // après un changement de dés/répartition).
+        personnage.traitsPsychologiquesManuels = [];
+    }
+
     competencesData.forEach(competence => {
-        if (!personnage.traitsPsychologiques[competence.id]) {
+        if (!personnage.traitsPsychologiquesManuels.includes(competence.id)) {
             const resultat = personnage.competences[competence.id] || { niveau: 0 };
             personnage.traitsPsychologiques[competence.id] = niveauVersJauge(resultat.niveau);
         }
@@ -203,10 +212,15 @@ export function initPromptIA({ conteneurItems, champPrompt, personnage, donnees,
     conteneurItems.querySelectorAll('input[type="radio"]').forEach(input => {
         input.addEventListener('change', () => {
             const bloc = input.closest('.trait-item');
-            personnage.traitsPsychologiques[bloc.dataset.competenceId] = input.value;
+            const competenceId = bloc.dataset.competenceId;
+            personnage.traitsPsychologiques[competenceId] = input.value;
+            if (!personnage.traitsPsychologiquesManuels.includes(competenceId)) {
+                personnage.traitsPsychologiquesManuels.push(competenceId);
+            }
             bloc.querySelector('.mot-defaut').classList.toggle('mot-actif', input.value === 'faible');
             bloc.querySelector('.mot-qualite').classList.toggle('mot-actif', input.value === 'fort');
             regenerer();
+            if (typeof surChangement === 'function') surChangement();
         });
     });
 
