@@ -58,7 +58,9 @@ main input[type="text"], main textarea { width: 100%; background: #1a1c24; color
 .tableau-competences .coin { background: transparent; border: none; }
 .entete-axe { background: #1f222b; text-align: left; white-space: nowrap; }
 .des-radios { display: flex; gap: .5rem; margin-top: .3rem; font-weight: normal; }
-.de-option { display: flex; align-items: center; gap: .15rem; font-size: .75rem; cursor: pointer; }
+.de-option { display: flex; align-items: center; gap: .15rem; font-size: .75rem; cursor: pointer; padding: .1rem .35rem; border-radius: 3px; }
+.de-option:has(input:checked) { background: #4a5578; color: #fff; font-weight: bold; }
+.de-option:has(input:disabled) { cursor: default; opacity: .8; }
 .competence-nom { font-weight: bold; }
 .competence-verbes { font-size: .75rem; color: #888; margin-bottom: .3rem; }
 .competence-checks { display: flex; gap: .8rem; margin: .3rem 0; }

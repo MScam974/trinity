@@ -51,15 +51,27 @@
       "bonusParRang": { "fort": 2, "moyen": 1, "faible": 0 }
     },
     "qualite": {
-      "_commentaire": "Variante de qualité d'un objet (1 = très mauvaise/cassé, 3 = normal — valeur par défaut de tout objet du catalogue, 5 = exceptionnelle). Chaque point sous la normale ajoute de l'encombrement et peut imposer un malus de dé (Vocation et/ou Attribut) pour les actions utilisant cet objet. Effets au-dessus de la normale non définis pour l'instant (à compléter).",
-      "normal": 3,
-      "effets": {
-        "1": { "encombrementSupplementaire": 2, "malusDeVocation": true, "malusDeAttribut": true },
-        "2": { "encombrementSupplementaire": 1, "malusDeVocation": true, "malusDeAttribut": false },
-        "3": { "encombrementSupplementaire": 0 },
-        "4": { "encombrementSupplementaire": 0 },
-        "5": { "encombrementSupplementaire": 0 }
-      }
+      "_commentaire": "Qualité d'une INSTANCE d'objet en possession d'un personnage (pas du catalogue : le catalogue armes/armures/equipements.json décrit un TYPE, chaque personnage possède ses propres instances avec leur qualité propre — cf. personnage.inventaire). Échelle 0 à 5, sert uniquement à déterminer le nombre d'avantages supplémentaires de l'instance. Ne modifie jamais le jet de dés : Attribut + Vocation contre Seuil de maîtrise reste inchangé, qualité et affinité de l'objet ne s'additionnent qu'aux avantages.",
+      "niveaux": [
+        { "niveau": 0, "nom": "Inexistant / Inutilisable", "nombreAvantages": 0 },
+        { "niveau": 1, "nom": "Rudimentaire", "nombreAvantages": 0 },
+        { "niveau": 2, "nom": "Standard", "nombreAvantages": 0 },
+        { "niveau": 3, "nom": "Supérieur", "nombreAvantages": 1 },
+        { "niveau": 4, "nom": "Expert", "nombreAvantages": 2 },
+        { "niveau": 5, "nom": "Légendaire", "nombreAvantages": 3 }
+      ]
+    },
+    "affiniteObjet": {
+      "_commentaire": "Nombre de pouvoirs d'affinité d'une instance d'objet (0 à 3), indépendant de la qualité. Un objet avec affiniteObjet > 0 est lié à l'une des 3 affinités du jeu ; un personnage n'ayant pas cette affinité subit un malus en l'utilisant (règle exacte du malus non définie, cf. penaliteAffiniteCroisee). Liste des pouvoirs eux-mêmes non définie pour l'instant.",
+      "echelleMax": 3
+    },
+    "emplacementsCreation": {
+      "_commentaire": "À la création, le joueur choisit librement 3 objets (n'importe quelle catégorie/compétence), chacun avec une qualité fixée par son emplacement — jamais calculée depuis les compétences. Le reste de l'inventaire démarre vide, rempli en jeu. Qualité 4 et 5 réservées aux trouvailles/récompenses en jeu, jamais accessibles à la création.",
+      "emplacements": [
+        { "id": "fragile", "nom": "Objet fragile", "qualite": 1 },
+        { "id": "ordinaire", "nom": "Objet ordinaire", "qualite": 2 },
+        { "id": "qualite", "nom": "Objet de qualité", "qualite": 3 }
+      ]
     },
     "typesPenalite": {
       "_commentaire": "Deux types de pénalité prévus pour les armes exotiques : 'seuil' (augmente le seuil de réussite, seul type utilisé pour l'instant) et 'de' (réduirait la taille du dé Vocation/Attribut, pas encore utilisé).",

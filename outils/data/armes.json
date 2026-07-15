@@ -1,31 +1,138 @@
 [
-  { "id": "couteau", "nom": "Couteau", "rarete": 1, "encombrement": 0, "qualite": 3, "affinite": "commune",
-    "degats": 1, "avantages": ["rapide"], "penalite": null,
-    "description": "Lame courte, discrète, toujours à portée de main." },
-  { "id": "epee", "nom": "Épée", "rarete": 2, "encombrement": 1, "qualite": 3, "affinite": "commune",
-    "degats": 2, "avantages": ["fiable"], "penalite": null,
-    "description": "Arme blanche standard, équilibrée." },
-  { "id": "arc", "nom": "Arc", "rarete": 2, "encombrement": 1, "qualite": 3, "affinite": "commune",
-    "degats": 2, "avantages": ["silencieux"], "penalite": null,
-    "description": "Silencieux, efficace à distance." },
-  { "id": "fusil", "nom": "Fusil", "rarete": 2, "encombrement": 2, "qualite": 3, "affinite": "commune",
-    "degats": 3, "avantages": ["precis"], "penalite": null,
-    "description": "Arme à feu longue, portée et précision correctes." },
-  { "id": "grenade-frag", "nom": "Grenade à fragmentation", "rarete": 3, "encombrement": 1, "qualite": 3, "affinite": "commune",
-    "degats": 4, "avantages": ["devastateur"], "penalite": null,
-    "zoneEffet": { "_commentaire": "Donnée descriptive, pas simulée par l'outil — appliquée manuellement par le MJ.", "adjacentes": "dégâts pleins", "portee2a3cases": "dégâts moitié" },
-    "description": "Explosif fragmentaire à lancer." },
-  { "id": "fusil-modifie", "nom": "Fusil d'assaut modifié", "rarete": 4, "encombrement": 2, "qualite": 3, "affinite": "commune",
-    "degats": 4, "avantages": ["devastateur", "modulable"],
-    "penalite": { "type": "seuil", "valeur": 1, "commentaire": "Arme exotique : puissance élevée mais complexe à manier sans entraînement." },
-    "description": "Arme trafiquée, très puissante mais peu fiable sans expérience." },
-  { "id": "griffes-harmonie", "nom": "Griffes / Crocs", "rarete": 3, "encombrement": 0, "qualite": 3, "affinite": "harmonie",
-    "degats": 2, "avantages": ["rapide"], "penalite": null,
-    "description": "Mutation offensive naturelle, propre aux Harmonistes." },
-  { "id": "poings-du-chi", "nom": "Poings du Chi", "rarete": 3, "encombrement": 0, "qualite": 3, "affinite": "purete",
-    "degats": 2, "avantages": ["rapide"], "penalite": null,
-    "description": "Art martial ancestral transmis par les Puristes." },
-  { "id": "technogreffe-combat", "nom": "Technogreffe de combat", "rarete": 4, "encombrement": 0, "qualite": 3, "affinite": "suprematie",
-    "degats": 3, "avantages": ["modulable"], "penalite": null,
-    "description": "Membre augmenté intégré, propre aux Suprématistes." }
+  {
+    "id": "couteau",
+    "nom": "Couteau",
+    "rarete": 1,
+    "encombrement": 0,
+    "affinite": "commune",
+    "degats": 1,
+    "avantages": [
+      "rapide"
+    ],
+    "penalite": null,
+    "description": "Lame courte, discrète, toujours à portée de main.",
+    "competence": "combat"
+  },
+  {
+    "id": "epee",
+    "nom": "Épée",
+    "rarete": 2,
+    "encombrement": 1,
+    "affinite": "commune",
+    "degats": 2,
+    "avantages": [
+      "fiable"
+    ],
+    "penalite": null,
+    "description": "Arme blanche standard, équilibrée.",
+    "competence": "combat"
+  },
+  {
+    "id": "arc",
+    "nom": "Arc",
+    "rarete": 2,
+    "encombrement": 1,
+    "affinite": "commune",
+    "degats": 2,
+    "avantages": [
+      "silencieux"
+    ],
+    "penalite": null,
+    "description": "Silencieux, efficace à distance.",
+    "competence": "combat"
+  },
+  {
+    "id": "fusil",
+    "nom": "Fusil",
+    "rarete": 2,
+    "encombrement": 2,
+    "affinite": "commune",
+    "degats": 3,
+    "avantages": [
+      "precis"
+    ],
+    "penalite": null,
+    "description": "Arme à feu longue, portée et précision correctes.",
+    "competence": "combat"
+  },
+  {
+    "id": "grenade-frag",
+    "nom": "Grenade à fragmentation",
+    "rarete": 3,
+    "encombrement": 1,
+    "affinite": "commune",
+    "degats": 4,
+    "avantages": [
+      "devastateur"
+    ],
+    "penalite": null,
+    "zoneEffet": {
+      "_commentaire": "Donnée descriptive, pas simulée par l'outil — appliquée manuellement par le MJ.",
+      "adjacentes": "dégâts pleins",
+      "portee2a3cases": "dégâts moitié"
+    },
+    "description": "Explosif fragmentaire à lancer.",
+    "competence": "combat"
+  },
+  {
+    "id": "fusil-modifie",
+    "nom": "Fusil d'assaut modifié",
+    "rarete": 4,
+    "encombrement": 2,
+    "affinite": "commune",
+    "degats": 4,
+    "avantages": [
+      "devastateur",
+      "modulable"
+    ],
+    "penalite": {
+      "type": "seuil",
+      "valeur": 1,
+      "commentaire": "Arme exotique : puissance élevée mais complexe à manier sans entraînement."
+    },
+    "description": "Arme trafiquée, très puissante mais peu fiable sans expérience.",
+    "competence": "combat"
+  },
+  {
+    "id": "griffes-harmonie",
+    "nom": "Griffes / Crocs",
+    "rarete": 3,
+    "encombrement": 0,
+    "affinite": "harmonie",
+    "degats": 2,
+    "avantages": [
+      "rapide"
+    ],
+    "penalite": null,
+    "description": "Mutation offensive naturelle, propre aux Harmonistes.",
+    "competence": "combat"
+  },
+  {
+    "id": "poings-du-chi",
+    "nom": "Poings du Chi",
+    "rarete": 3,
+    "encombrement": 0,
+    "affinite": "purete",
+    "degats": 2,
+    "avantages": [
+      "rapide"
+    ],
+    "penalite": null,
+    "description": "Art martial ancestral transmis par les Puristes.",
+    "competence": "combat"
+  },
+  {
+    "id": "technogreffe-combat",
+    "nom": "Technogreffe de combat",
+    "rarete": 4,
+    "encombrement": 0,
+    "affinite": "suprematie",
+    "degats": 3,
+    "avantages": [
+      "modulable"
+    ],
+    "penalite": null,
+    "description": "Membre augmenté intégré, propre aux Suprématistes.",
+    "competence": "combat"
+  }
 ]
