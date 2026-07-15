@@ -1,0 +1,22 @@
+[
+  { "id": "resistance",  "nom": "Résistance",  "vocation": "exploration", "attribut": "habilete",  "competenceActive": "athletisme",
+    "verbes": "Endurer, S'adapter, Survivre", "description": "Tenir le coup face à la fatigue, la faim, la soif, le froid extrême." },
+  { "id": "immunite",    "nom": "Immunité",    "vocation": "exploration", "attribut": "instinct",  "competenceActive": "survie",
+    "verbes": "Immuniser, Purifier, Guérir", "description": "Résister aux maladies, toxines, radiations, infections." },
+  { "id": "vigilance",   "nom": "Vigilance",   "vocation": "exploration", "attribut": "intellect", "competenceActive": "observation",
+    "verbes": "Surveiller, Prévoir, Avertir", "description": "Détecter les dangers avant qu'ils ne frappent, anticiper les embuscades." },
+
+  { "id": "fermete",     "nom": "Fermeté",     "vocation": "interaction", "attribut": "habilete",  "competenceActive": "presence",
+    "verbes": "Tenir, Ignorer, Repousser", "description": "Résister à l'intimidation, rester stoïque face aux menaces." },
+  { "id": "scepticisme", "nom": "Scepticisme", "vocation": "interaction", "attribut": "instinct",  "competenceActive": "persuasion",
+    "verbes": "Douter, Analyser, Démasquer", "description": "Ne pas se laisser convaincre, voir à travers la manipulation." },
+  { "id": "lucidite",    "nom": "Lucidité",    "vocation": "interaction", "attribut": "intellect", "competenceActive": "bluff",
+    "verbes": "Discerner, Rester clair, Déjouer", "description": "Résister au bluff, aux illusions, aux drogues, aux hallucinations." },
+
+  { "id": "robustesse",         "nom": "Robustesse",           "vocation": "action", "attribut": "habilete",  "competenceActive": "combat",
+    "verbes": "Absorber, Encaisser, Rebondir", "description": "Encaisser les coups, les chutes, les explosions sans s'effondrer." },
+  { "id": "discretion-defensive","nom": "Discrétion défensive", "vocation": "action", "attribut": "instinct",  "competenceActive": "discretion",
+    "verbes": "Se dissimuler, Faire le mort, S'effacer", "description": "Se fondre dans l'environnement pour éviter d'être détecté." },
+  { "id": "ingeniosite",        "nom": "Ingéniosité",          "vocation": "action", "attribut": "intellect", "competenceActive": "artisanat",
+    "verbes": "Bricoler, Contourner, Désamorcer", "description": "Improviser des défenses, réparer en urgence, détourner des pièges." }
+]
