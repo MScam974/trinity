@@ -42,7 +42,7 @@ export function calculerEncombrementMax(personnage, donnees) {
 
     const bonusExploration = bonusParRang[rangDe(personnage.vocations.exploration, donnees.config)] || 0;
     const bonusHabilete = bonusParRang[rangDe(personnage.attributs.habilete, donnees.config)] || 0;
-    const base = Math.max(bonusExploration + bonusHabilete, plancherMinimum || 0);
+    const base = (plancherMinimum || 0) + bonusExploration + bonusHabilete;
 
     const bonusContenants = personnage.inventaire
         .map(instance => trouverDansCatalogue(instance, catalogue))

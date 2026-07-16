@@ -47,8 +47,9 @@
       ]
     },
     "encombrementMax": {
-      "_commentaire": "Encombrement max porté = bonus(Vocation Exploration) + bonus(Attribut Habileté) + somme des bonusEncombrement des contenants portés (ex: sac à dos). Le bonus par rang réutilise config.des.rangParTaille (fort/moyen/faible), pas une nouvelle donnée.",
-      "bonusParRang": { "fort": 2, "moyen": 1, "faible": 0 }
+      "_commentaire": "Encombrement max porté = plancherMinimum + bonus(Vocation Exploration) + bonus(Attribut Habileté) + somme des bonusEncombrement des contenants portés (ex: sac à dos). Formule ADDITIVE (pas un plafond) : un personnage fort/fort obtient nettement plus qu'un personnage faible/faible. Le bonus par rang réutilise config.des.rangParTaille (fort/moyen/faible), pas une nouvelle donnée.",
+      "bonusParRang": { "fort": 2, "moyen": 1, "faible": 0 },
+      "plancherMinimum": 5
     },
     "qualite": {
       "_commentaire": "Qualité d'une INSTANCE d'objet en possession d'un personnage (pas du catalogue : le catalogue armes/armures/equipements.json décrit un TYPE, chaque personnage possède ses propres instances avec leur qualité propre — cf. personnage.inventaire). Échelle 0 à 5, sert uniquement à déterminer le nombre d'avantages supplémentaires de l'instance. Ne modifie jamais le jet de dés : Attribut + Vocation contre Seuil de maîtrise reste inchangé, qualité et affinité de l'objet ne s'additionnent qu'aux avantages.",
